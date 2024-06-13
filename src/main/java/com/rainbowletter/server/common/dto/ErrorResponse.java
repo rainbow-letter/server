@@ -9,7 +9,7 @@ public record ErrorResponse(
 		LocalDateTime timestamp
 ) {
 
-	public static ErrorResponse create(final String message, final HttpStatus status) {
+	public static ErrorResponse of(final String message, final HttpStatus status) {
 		return new ErrorResponse(message, status.value(), LocalDateTime.now());
 	}
 

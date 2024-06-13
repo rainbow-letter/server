@@ -23,7 +23,7 @@ public class BaseAuthenticationHandler {
 			final String message,
 			final HttpServletResponse response
 	) throws IOException {
-		final var errorResponse = ErrorResponse.create(message, status);
+		final var errorResponse = ErrorResponse.of(message, status);
 		final String body = mapper.writeValueAsString(errorResponse);
 		response.setStatus(status.value());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
