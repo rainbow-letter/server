@@ -12,4 +12,8 @@ public class ClientProperty {
 	@Value("${client.url}")
 	private List<String> urls;
 
+	public String getBaseUrl() {
+		return urls.get(0);
+	}
+
 }
