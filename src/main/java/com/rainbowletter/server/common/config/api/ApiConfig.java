@@ -1,0 +1,35 @@
+package com.rainbowletter.server.common.config.api;
+
+import com.rainbowletter.server.common.exception.RainbowLetterException;
+import com.rainbowletter.server.notification.infrastructure.AlimTalkClient;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.support.RestClientAdapter;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
+
+@Configuration
+public class ApiConfig {
+
+	private static final String ALIGO_KAKAO_BASE_URL = "https://kakaoapi.aligo.in";
+
+	@Bean
+	public AlimTalkClient alimTalkClient() {
+		final RestClient restClient = RestClient.builder()
+				.baseUrl(ALIGO_KAKAO_BASE_URL)
+				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+				.defaultStatusHandler(HttpStatusCode::is5xxServerError, ((request, response) -> {
+					throw new RainbowLetterException("알림톡 서버에 문제가 발생하였습니다.");
+				}))
+				.build();
+		return HttpServiceProxyFactory
+				.builderFor(RestClientAdapter.create(restClient))
+				.build()
+				.createClient(AlimTalkClient.class);
+	}
+
+}
