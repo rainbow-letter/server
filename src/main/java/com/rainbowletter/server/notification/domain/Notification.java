@@ -3,6 +3,7 @@ package com.rainbowletter.server.notification.domain;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
+import com.rainbowletter.server.notification.dto.AlimTalkSendResponse;
 import com.rainbowletter.server.notification.dto.NotificationSendRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -66,6 +67,16 @@ public class Notification extends AbstractAggregateRoot<Notification> {
 			final TimeHolder timeHolder
 	) {
 		this(null, request, sender, type, 0, "", timeHolder);
+	}
+
+	public Notification(
+			final NotificationSendRequest request,
+			final String sender,
+			final NotificationType type,
+			final AlimTalkSendResponse response,
+			final TimeHolder timeHolder
+	) {
+		this(null, request, sender, type, response.result_code(), response.message(), timeHolder);
 	}
 
 	@Builder
