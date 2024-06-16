@@ -3,9 +3,11 @@ package com.rainbowletter.server.notification.domain;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
+import com.rainbowletter.server.common.domain.TimeEntity;
 import com.rainbowletter.server.notification.dto.AlimTalkSendResponse;
 import com.rainbowletter.server.notification.dto.NotificationSendRequest;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,7 +16,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
@@ -56,9 +57,8 @@ public class Notification extends AbstractAggregateRoot<Notification> {
 	@NotNull
 	private String statusMessage;
 
-	@NotNull
-	@Column(updatable = false)
-	private LocalDateTime createdAt;
+	@Embedded
+	private TimeEntity timeEntity;
 
 	public Notification(
 			final NotificationSendRequest request,
@@ -97,7 +97,7 @@ public class Notification extends AbstractAggregateRoot<Notification> {
 		this.type = type;
 		this.code = code;
 		this.statusMessage = statusMessage;
-		this.createdAt = timeHolder.currentTime();
+		this.timeEntity = new TimeEntity(timeHolder);
 	}
 
 	@Override

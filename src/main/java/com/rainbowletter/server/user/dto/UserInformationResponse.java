@@ -25,7 +25,7 @@ public record UserInformationResponse(
 				user.getProvider(),
 				user.getLastLoggedIn(),
 				user.getLastChangedPassword(),
-				user.getCreatedAt()
+				user.getTimeEntity().getCreatedAt()
 		);
 	}
 
