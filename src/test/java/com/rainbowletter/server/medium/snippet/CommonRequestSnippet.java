@@ -11,4 +11,8 @@ public class CommonRequestSnippet {
 			headerWithName("Authorization").description("액세스 토큰")
 	);
 
+	public static final Snippet ADMIN_AUTHORIZATION_HEADER = requestHeaders(
+			headerWithName("Authorization").description("관리자 액세스 토큰")
+	);
+
 }
