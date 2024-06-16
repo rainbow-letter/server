@@ -3,14 +3,15 @@ package com.rainbowletter.server.user.domain;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
+import com.rainbowletter.server.common.domain.TimeEntity;
 import com.rainbowletter.server.common.exception.RainbowLetterException;
 import com.rainbowletter.server.user.dto.UserChangePassword;
 import com.rainbowletter.server.user.dto.UserChangePhoneNumber;
 import com.rainbowletter.server.user.dto.UserCreate;
 import com.rainbowletter.server.user.dto.UserResetPassword;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -23,16 +24,13 @@ import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.AbstractAggregateRoot;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @Entity
 @Table(name = "user")
 @NoArgsConstructor(access = PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
 public class User extends AbstractAggregateRoot<User> {
 
 	@Id
@@ -69,12 +67,8 @@ public class User extends AbstractAggregateRoot<User> {
 	@NotNull
 	private LocalDateTime lastChangedPassword;
 
-	@NotNull
-	@Column(updatable = false)
-	private LocalDateTime createdAt;
-
-	@LastModifiedDate
-	private LocalDateTime updatedAt;
+	@Embedded
+	private TimeEntity timeEntity;
 
 	public User(final UserCreate userCreate, final PasswordEncoder passwordEncoder, final TimeHolder timeHolder) {
 		initialize(null, userCreate, passwordEncoder, null, timeHolder);
@@ -119,8 +113,7 @@ public class User extends AbstractAggregateRoot<User> {
 		this.providerId = userCreate.providerId();
 		this.lastLoggedIn = lastLoggedIn;
 		this.lastChangedPassword = currentTime;
-		this.createdAt = currentTime;
-		this.updatedAt = currentTime;
+		this.timeEntity = new TimeEntity(timeHolder);
 	}
 
 	public boolean isStatusMismatch(final UserStatus status) {
