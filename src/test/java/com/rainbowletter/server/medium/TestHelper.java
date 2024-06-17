@@ -3,6 +3,9 @@ package com.rainbowletter.server.medium;
 import static com.rainbowletter.server.medium.RestDocsUtils.setSpecification;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rainbowletter.server.common.infrastructure.JwtTokenProvider;
 import com.rainbowletter.server.user.domain.UserRole;
 import io.restassured.RestAssured;
@@ -27,8 +30,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @AutoConfigureRestDocs
 public class TestHelper {
 
-	public String userAccessToken;
-	public String adminAccessToken;
+	protected static final ObjectMapper objectMapper = new ObjectMapper()
+			.registerModule(new JavaTimeModule())
+			.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+	protected String userAccessToken;
+	protected String adminAccessToken;
 
 	@LocalServerPort
 	private int port;
@@ -61,11 +68,11 @@ public class TestHelper {
 		databaseCleaner.execute();
 	}
 
-	public void setUserAccessToken() {
+	void setUserAccessToken() {
 		this.userAccessToken = jwtTokenProvider.create("user@mail.com", UserRole.ROLE_USER.name());
 	}
 
-	public void setAdminAccessToken() {
+	void setAdminAccessToken() {
 		this.adminAccessToken = jwtTokenProvider.create("admin@mail.com", UserRole.ROLE_ADMIN.name());
 	}
 
