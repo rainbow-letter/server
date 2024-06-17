@@ -38,8 +38,12 @@ public class FaqRequestSnippet {
 	);
 
 	public static final Snippet FAQ_SWITCH_SEQUENCE_REQUEST = requestFields(
-			fieldWithPath("id").type(JsonFieldType.NUMBER).description("순번을 변경할 Faq ID"),
-			fieldWithPath("targetId").type(JsonFieldType.NUMBER).description("바꾸고자 하는 순번의 Faq ID")
+			fieldWithPath("id")
+					.type(JsonFieldType.NUMBER)
+					.description("순번을 변경할 Faq ID"),
+			fieldWithPath("targetId")
+					.type(JsonFieldType.NUMBER)
+					.description("바꾸고자 하는 순번의 Faq ID")
 	);
 
 }
