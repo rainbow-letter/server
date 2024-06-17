@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 public class ValidationMessage {
 
 	public static final String EMPTY_MESSAGE = "항목을 입력해주세요.";
-	public static final String FAQ_SUMMARY_LENGTH_MESSAGE = "제목은 30자 이하로 입력해 주세요.";
+	public static final String PAST_OR_PRESENT_MESSAGE = "날짜가 과거가 아니거나, 형식이 잘못되었습니다.";
 
 }
