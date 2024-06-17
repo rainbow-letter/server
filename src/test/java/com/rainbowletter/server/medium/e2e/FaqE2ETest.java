@@ -1,4 +1,4 @@
-package com.rainbowletter.server.medium.faq;
+package com.rainbowletter.server.medium.e2e;
 
 import static com.rainbowletter.server.common.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
 import static com.rainbowletter.server.common.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
@@ -40,7 +40,8 @@ class FaqE2ETest extends TestHelper {
 
 		// then
 		assertThat(result.faqs()).hasSize(2);
-		assertThat(result.faqs()).extracting("id", "summary", "detail")
+		assertThat(result.faqs())
+				.extracting("id", "summary", "detail")
 				.contains(
 						tuple(1L, "무지개 편지는 무슨 서비스인가요?", "무지개 편지는 무지개 다리를 건넌 반려동물과 편지를 주고받는 서비스입니다."),
 						tuple(2L, "답장이 온 건 어떻게 알 수 있나요?", "답장이 도착하면 등록하신 이메일 주소로 메일을 보내드려요.")
@@ -67,7 +68,8 @@ class FaqE2ETest extends TestHelper {
 
 		// then
 		assertThat(result.faqs()).hasSize(2);
-		assertThat(result.faqs()).extracting("id", "summary", "detail", "visibility", "sequence")
+		assertThat(result.faqs())
+				.extracting("id", "summary", "detail", "visibility", "sequence")
 				.contains(
 						tuple(1L, "무지개 편지는 무슨 서비스인가요?", "무지개 편지는 무지개 다리를 건넌 반려동물과 편지를 주고받는 서비스입니다.", true, 1L),
 						tuple(2L, "답장이 온 건 어떻게 알 수 있나요?", "답장이 도착하면 등록하신 이메일 주소로 메일을 보내드려요.", true, 2L)

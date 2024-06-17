@@ -1,4 +1,4 @@
-package com.rainbowletter.server.medium.user;
+package com.rainbowletter.server.medium.e2e;
 
 import static com.rainbowletter.server.common.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
 import static com.rainbowletter.server.common.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
