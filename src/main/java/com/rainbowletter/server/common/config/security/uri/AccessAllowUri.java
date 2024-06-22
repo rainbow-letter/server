@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AccessAllowUri implements AllowUri {
 	GET_FAQS("/api/faqs"),
+	GET_IMAGES("/api/images/resources/**"),
 	;
 
 	private final String uri;
