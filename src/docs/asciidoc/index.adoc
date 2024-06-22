@@ -32,4 +32,5 @@
 
 include::user.adoc[]
 include::faq.adoc[]
+include::image.adoc[]
 include::pet.adoc[]
