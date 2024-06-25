@@ -1,0 +1,9 @@
+== 편지
+
+=== 생성
+
+operation::letter-e2e-test/should_-create-letter_-when_-valid-request[snippets='http-request,query-parameters,request-headers,request-fields,http-response,response-headers']
+
+=== 삭제
+
+operation::letter-e2e-test/should_-delete-letter_-when_-valid-request[snippets='http-request,path-parameters,request-headers,http-response']
