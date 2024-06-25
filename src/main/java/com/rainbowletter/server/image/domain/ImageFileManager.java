@@ -55,6 +55,17 @@ public class ImageFileManager extends AbstractFileManager {
 		return getFirstFile(files).toPath();
 	}
 
+	public void delete(final String fullPath) throws IOException {
+		final String[] paths = fullPath.split("/");
+		if (paths.length != 2) {
+			throw new RainbowLetterException("유효하지 않은 이미지 경로입니다.", fullPath);
+		}
+
+		final String dirName = paths[0];
+		final String fileName = paths[1];
+		delete(dirName, fileName);
+	}
+
 	public void delete(final String dirName, final String fileName) throws IOException {
 		final Path searchDirPath = createAbsolutePath(DEFAULT_IMAGE_DIR_NAME, dirName);
 		final File[] files = searchFiles(searchDirPath, fileName);

@@ -27,6 +27,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.AbstractAggregateRoot;
+import org.springframework.util.StringUtils;
 
 @Getter
 @Entity
@@ -94,6 +95,10 @@ public class Pet extends AbstractAggregateRoot<Pet> {
 		this.personalities = petUpdate.personalities();
 		this.deathAnniversary = petUpdate.deathAnniversary();
 		this.image = petUpdate.image();
+	}
+
+	public boolean hasImage() {
+		return StringUtils.hasText(image);
 	}
 
 	public void increaseFavorite(final TimeHolder timeHolder) {
