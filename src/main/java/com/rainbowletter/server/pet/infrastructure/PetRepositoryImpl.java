@@ -26,7 +26,7 @@ public class PetRepositoryImpl implements PetRepository {
 	public Pet findByIdAndUserIdOrElseThrow(final Long id, final Long userId) {
 		return petJpaRepository.findByIdAndUserId(id, userId)
 				.orElseThrow(() -> new RainbowLetterException(
-						"반려동물 정보를 찾을 수 없습니다.", "id : [%d] userId: [%d]".formatted(id, userId)));
+						"반려동물 정보를 찾을 수 없습니다.", "id: [%d] userId: [%d]".formatted(id, userId)));
 	}
 
 	@Override
