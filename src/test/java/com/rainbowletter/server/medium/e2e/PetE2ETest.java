@@ -49,7 +49,7 @@ class PetE2ETest extends TestHelper {
 				.extracting("id", "userId", "name", "species", "owner", "personalities", "deathAnniversary", "image")
 				.contains(
 						tuple(1L, 1L, "콩이", "고양이", "형아", List.of("활발한", "잘삐짐"), deathAnniversary, "objectKey"),
-						tuple(2L, 1L, "미키", "강아지", "엄마", List.of(), deathAnniversary, "objectKey")
+						tuple(2L, 1L, "미키", "강아지", "엄마", List.of(), deathAnniversary, null)
 				);
 		assertThat(result.pets())
 				.extracting("favorite")
@@ -207,7 +207,7 @@ class PetE2ETest extends TestHelper {
 				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.filter(getFilter().document(AUTHORIZATION_HEADER, PET_PATH_VARIABLE_ID))
-				.when().delete("/api/pets/{id}", 1)
+				.when().delete("/api/pets/{id}", 2)
 				.then().log().all().extract();
 	}
 
