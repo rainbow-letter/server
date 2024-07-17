@@ -28,6 +28,12 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
+	public User findByIdOrElseThrow(final Long id) {
+		return userJpaRepository.findById(id)
+				.orElseThrow(() -> new RainbowLetterException("사용자 고유 아이디를 찾을 수 없습니다.", id));
+	}
+
+	@Override
 	public User findByEmailOrElseThrow(final String email) {
 		return userJpaRepository.findByEmail(email)
 				.orElseThrow(() -> new RainbowLetterException("사용자 이메일을 찾을 수 없습니다.", email));

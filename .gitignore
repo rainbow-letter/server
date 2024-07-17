@@ -47,3 +47,4 @@ compression-logs/
 .DS_Store
 src/main/generated
 images/
+settings/
