@@ -6,7 +6,9 @@ import com.rainbowletter.server.reply.controller.port.ReplyService;
 import com.rainbowletter.server.reply.domain.Reply;
 import com.rainbowletter.server.reply.domain.ReplyGenerator;
 import com.rainbowletter.server.reply.domain.ReplyValidator;
+import com.rainbowletter.server.reply.dto.ReplyResponse;
 import com.rainbowletter.server.reply.dto.ReplyUpdate;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,12 @@ public class ReplyServiceImpl implements ReplyService {
 	private final ReplyGenerator replyGenerator;
 	private final ReplyValidator replyValidator;
 	private final ReplyRepository replyRepository;
+
+	@Override
+	public ReplyResponse findByShareLink(final UUID shareLink) {
+		final Reply reply = replyRepository.findByShareLinkOrElseThrow(shareLink);
+		return ReplyResponse.from(reply);
+	}
 
 	@Override
 	@Transactional

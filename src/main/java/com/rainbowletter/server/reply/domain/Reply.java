@@ -64,7 +64,7 @@ public class Reply extends AbstractAggregateRoot<Reply> {
 	@Enumerated(EnumType.STRING)
 	private ReplyStatus status;
 
-	private LocalDateTime submitTimestamp;
+	private LocalDateTime submitTime;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -114,7 +114,7 @@ public class Reply extends AbstractAggregateRoot<Reply> {
 	public void submit(final ReplyValidator replyValidator, final TimeHolder timeHolder) {
 		replyValidator.validateSubmit(this);
 		this.status = ReplyStatus.REPLY;
-		this.submitTimestamp = timeHolder.currentTime();
+		this.submitTime = timeHolder.currentTime();
 		registerEvent(new ReplySubmitEvent(this));
 	}
 

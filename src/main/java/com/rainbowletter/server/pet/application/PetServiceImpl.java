@@ -5,12 +5,14 @@ import com.rainbowletter.server.pet.application.port.PetRepository;
 import com.rainbowletter.server.pet.controller.port.PetService;
 import com.rainbowletter.server.pet.domain.Pet;
 import com.rainbowletter.server.pet.dto.PetCreate;
+import com.rainbowletter.server.pet.dto.PetExcludeFavoriteResponse;
 import com.rainbowletter.server.pet.dto.PetResponse;
 import com.rainbowletter.server.pet.dto.PetResponses;
 import com.rainbowletter.server.pet.dto.PetUpdate;
 import com.rainbowletter.server.user.application.port.UserRepository;
 import com.rainbowletter.server.user.domain.User;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,12 @@ public class PetServiceImpl implements PetService {
 	public PetResponse findByEmailAndId(final String email, final Long id) {
 		final Pet pet = findPetByEmailAndIdOrElseThrow(email, id);
 		return PetResponse.from(pet);
+	}
+
+	@Override
+	public PetExcludeFavoriteResponse findByShareLink(final UUID shareLink) {
+		final Pet pet = petRepository.findByShareLinkOrElseThrow(shareLink);
+		return PetExcludeFavoriteResponse.from(pet);
 	}
 
 	@Override

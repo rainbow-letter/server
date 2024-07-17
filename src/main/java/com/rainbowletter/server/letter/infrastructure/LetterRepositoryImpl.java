@@ -7,6 +7,8 @@ import com.rainbowletter.server.common.exception.RainbowLetterException;
 import com.rainbowletter.server.letter.application.port.LetterRepository;
 import com.rainbowletter.server.letter.domain.Letter;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +30,16 @@ public class LetterRepositoryImpl implements LetterRepository {
 	public Letter findByIdOrElseThrow(final Long id) {
 		return letterJpaRepository.findById(id)
 				.orElseThrow(() -> new RainbowLetterException("편지를 찾을 수 없습니다.", "id: [%d]".formatted(id)));
+	}
+
+	@Override
+	public Letter findByShareLinkOrElseThrow(final UUID shareLink) {
+		return Optional.ofNullable(
+						queryFactory.selectFrom(letter)
+								.where(letter.shareLink.eq(shareLink))
+								.fetchOne()
+				)
+				.orElseThrow(() -> new RainbowLetterException("공유 편지를 찾을 수 없습니다.", "share: [%s]".formatted(shareLink)));
 	}
 
 	@Override

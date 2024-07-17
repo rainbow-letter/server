@@ -1,8 +1,12 @@
 package com.rainbowletter.server.reply.controller.port;
 
+import com.rainbowletter.server.reply.dto.ReplyResponse;
 import com.rainbowletter.server.reply.dto.ReplyUpdate;
+import java.util.UUID;
 
 public interface ReplyService {
+
+	ReplyResponse findByShareLink(UUID shareLink);
 
 	void generate(Long letterId);
 

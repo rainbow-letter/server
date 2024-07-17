@@ -6,10 +6,12 @@ import com.rainbowletter.server.letter.application.port.LetterRepository;
 import com.rainbowletter.server.letter.controller.port.LetterService;
 import com.rainbowletter.server.letter.domain.Letter;
 import com.rainbowletter.server.letter.dto.LetterCreate;
+import com.rainbowletter.server.letter.dto.LetterResponse;
 import com.rainbowletter.server.pet.application.port.PetRepository;
 import com.rainbowletter.server.pet.domain.Pet;
 import com.rainbowletter.server.user.application.port.UserRepository;
 import com.rainbowletter.server.user.domain.User;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,12 @@ public class LetterServiceImpl implements LetterService {
 	private final PetRepository petRepository;
 	private final UserRepository userRepository;
 	private final LetterRepository letterRepository;
+
+	@Override
+	public LetterResponse findByShareLink(final UUID shareLink) {
+		final Letter letter = letterRepository.findByShareLinkOrElseThrow(shareLink);
+		return LetterResponse.from(letter);
+	}
 
 	@Override
 	@Transactional
