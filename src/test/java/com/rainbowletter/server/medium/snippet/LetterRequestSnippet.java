@@ -20,6 +20,10 @@ public class LetterRequestSnippet {
 			parameterWithName("id").description("편지 ID")
 	);
 
+	public static final Snippet LETTER_PATH_VARIABLE_SHARE_LINK = pathParameters(
+			parameterWithName("shareLink").description("편지 공유 링크")
+	);
+
 	public static final Snippet LETTER_CREATE_REQUEST = requestFields(
 			fieldWithPath("summary")
 					.type(JsonFieldType.STRING)

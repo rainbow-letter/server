@@ -8,10 +8,13 @@ import static com.rainbowletter.server.medium.snippet.CommonRequestSnippet.AUTHO
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_CREATE_REQUEST;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PARAM_PET_ID;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_ID;
+import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_SHARE_LINK;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_CREATE_RESPONSE_HEADER;
+import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_RESPONSE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.rainbowletter.server.letter.dto.LetterCreateRequest;
+import com.rainbowletter.server.letter.dto.LetterDetailResponse;
 import com.rainbowletter.server.medium.TestHelper;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -20,8 +23,31 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql({"classpath:sql/user.sql", "classpath:sql/pet.sql", "classpath:sql/letter.sql"})
+@Sql({"classpath:sql/user.sql", "classpath:sql/pet.sql", "classpath:sql/letter.sql", "classpath:sql/reply.sql"})
 class LetterE2ETest extends TestHelper {
+
+	@Test
+	void Should_LetterShareResponse_When_ValidRequest() {
+		// given
+		// when
+		final ExtractableResponse<Response> response = findByShareLink();
+		final LetterDetailResponse result = response.body().as(LetterDetailResponse.class);
+
+		// then
+		assertThat(response.statusCode()).isEqualTo(200);
+		assertThat(result.pet().id()).isEqualTo(1);
+		assertThat(result.letter().id()).isEqualTo(1);
+		assertThat(result.reply().id()).isEqualTo(1);
+	}
+
+	private ExtractableResponse<Response> findByShareLink() {
+		return RestAssured
+				.given(getSpecification()).log().all()
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.filter(getFilter().document(LETTER_PATH_VARIABLE_SHARE_LINK, LETTER_RESPONSE))
+				.when().get("/api/letters/share/{shareLink}", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
+				.then().log().all().extract();
+	}
 
 	@Test
 	void Should_CreateLetter_When_ValidRequest() {

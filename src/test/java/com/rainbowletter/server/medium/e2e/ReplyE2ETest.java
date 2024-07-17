@@ -77,7 +77,7 @@ class ReplyE2ETest extends TestHelper {
 				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.filter(getFilter().document(ADMIN_AUTHORIZATION_HEADER, REPLY_PATH_VARIABLE_ID))
-				.when().post("/api/admins/replies/inspect/{id}", 1)
+				.when().post("/api/admins/replies/inspect/{id}", 2)
 				.then().log().all().extract();
 	}
 
@@ -99,7 +99,7 @@ class ReplyE2ETest extends TestHelper {
 				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.filter(getFilter().document(ADMIN_AUTHORIZATION_HEADER, REPLY_PATH_VARIABLE_ID))
-				.when().post("/api/admins/replies/submit/{id}", 2)
+				.when().post("/api/admins/replies/submit/{id}", 4)
 				.then().log().all().extract();
 	}
 
