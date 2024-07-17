@@ -94,6 +94,10 @@ public class Letter extends AbstractAggregateRoot<Letter> {
 		registerEvent(new LetterCreateEvent(this));
 	}
 
+	public void receiveReply() {
+		this.status = LetterStatus.RESPONSE;
+	}
+
 	public boolean hasImage() {
 		return StringUtils.hasText(image);
 	}
