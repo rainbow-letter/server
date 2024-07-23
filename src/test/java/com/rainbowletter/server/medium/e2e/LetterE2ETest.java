@@ -50,6 +50,32 @@ class LetterE2ETest extends TestHelper {
 	}
 
 	@Test
+	void Should_LetterResponse_When_ValidRequest() {
+		// given
+		final String token = userAccessToken;
+
+		// when
+		final ExtractableResponse<Response> response = findById(token);
+		final LetterDetailResponse result = response.body().as(LetterDetailResponse.class);
+
+		// then
+		assertThat(response.statusCode()).isEqualTo(200);
+		assertThat(result.pet().id()).isEqualTo(1);
+		assertThat(result.letter().id()).isEqualTo(1);
+		assertThat(result.reply().id()).isEqualTo(1);
+	}
+
+	private ExtractableResponse<Response> findById(final String token) {
+		return RestAssured
+				.given(getSpecification()).log().all()
+				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.filter(getFilter().document(AUTHORIZATION_HEADER, LETTER_PATH_VARIABLE_ID, LETTER_RESPONSE))
+				.when().get("/api/letters/{id}", 1)
+				.then().log().all().extract();
+	}
+
+	@Test
 	void Should_LetterShareResponse_When_ValidRequest() {
 		// given
 		// when

@@ -105,6 +105,10 @@ public class LetterResponseSnippet {
 			fieldWithPath("letter.updatedAt")
 					.type(JsonFieldType.STRING)
 					.description("수정일"),
+			fieldWithPath("reply")
+					.type(JsonFieldType.OBJECT)
+					.description("답장 정보 객체")
+					.optional(),
 			fieldWithPath("reply.id")
 					.type(JsonFieldType.NUMBER)
 					.description("답장 ID"),
