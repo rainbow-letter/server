@@ -8,6 +8,10 @@ operation::letter-e2e-test/should_-create-letter_-when_-valid-request[snippets='
 
 operation::letter-e2e-test/should_-delete-letter_-when_-valid-request[snippets='http-request,path-parameters,request-headers,http-response']
 
+=== 편지함 조회
+
+operation::letter-e2e-test/should_-letter-box-responses_-when_-valid-request[snippets='http-request,request-headers,http-response,response-fields']
+
 === 공유 편지 조회
 
 operation::letter-e2e-test/should_-letter-share-response_-when_-valid-request[snippets='http-request,path-parameters,http-response,response-fields']
