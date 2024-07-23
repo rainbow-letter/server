@@ -8,6 +8,7 @@ import com.rainbowletter.server.reply.domain.ReplyGenerator;
 import com.rainbowletter.server.reply.domain.ReplyValidator;
 import com.rainbowletter.server.reply.dto.ReplyResponse;
 import com.rainbowletter.server.reply.dto.ReplyUpdate;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,12 @@ public class ReplyServiceImpl implements ReplyService {
 	private final ReplyGenerator replyGenerator;
 	private final ReplyValidator replyValidator;
 	private final ReplyRepository replyRepository;
+
+	@Override
+	public ReplyResponse findByLetterId(final Long letterId) {
+		final Optional<Reply> reply = replyRepository.findByLetterId(letterId);
+		return reply.map(ReplyResponse::from).orElse(null);
+	}
 
 	@Override
 	public ReplyResponse findByShareLink(final UUID shareLink) {

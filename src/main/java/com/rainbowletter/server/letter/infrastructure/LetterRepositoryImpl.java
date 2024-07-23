@@ -21,6 +21,8 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class LetterRepositoryImpl implements LetterRepository {
 
+	private static final String LETTER_NOT_FOUND_MESSAGE = "편지를 찾을 수 없습니다.";
+
 	private final JPAQueryFactory queryFactory;
 	private final LetterJpaRepository letterJpaRepository;
 
@@ -28,13 +30,29 @@ public class LetterRepositoryImpl implements LetterRepository {
 	public Letter findByIdAndUserIdOrElseThrow(final Long id, final Long userId) {
 		return letterJpaRepository.findByIdAndUserId(id, userId)
 				.orElseThrow(() -> new RainbowLetterException(
-						"편지를 찾을 수 없습니다.", "id: [%d] userId: [%d]".formatted(id, userId)));
+						LETTER_NOT_FOUND_MESSAGE,
+						"id: [%d] userId: [%d]".formatted(id, userId)
+				));
 	}
 
 	@Override
 	public Letter findByIdOrElseThrow(final Long id) {
 		return letterJpaRepository.findById(id)
-				.orElseThrow(() -> new RainbowLetterException("편지를 찾을 수 없습니다.", "id: [%d]".formatted(id)));
+				.orElseThrow(() -> new RainbowLetterException(LETTER_NOT_FOUND_MESSAGE, "id: [%d]".formatted(id)));
+	}
+
+	@Override
+	public Letter findByEmailAndIdOrElseThrow(final String email, final Long id) {
+		return Optional.ofNullable(
+						queryFactory.selectFrom(letter)
+								.join(user).on(letter.userId.eq(user.id))
+								.where(user.email.eq(email).and(letter.id.eq(id)))
+								.fetchOne()
+				)
+				.orElseThrow(() -> new RainbowLetterException(
+						LETTER_NOT_FOUND_MESSAGE,
+						"email: [%s] id: [%d]".formatted(email, id)
+				));
 	}
 
 	@Override
@@ -44,7 +62,10 @@ public class LetterRepositoryImpl implements LetterRepository {
 								.where(letter.shareLink.eq(shareLink))
 								.fetchOne()
 				)
-				.orElseThrow(() -> new RainbowLetterException("공유 편지를 찾을 수 없습니다.", "share: [%s]".formatted(shareLink)));
+				.orElseThrow(() -> new RainbowLetterException(
+						LETTER_NOT_FOUND_MESSAGE,
+						"share: [%s]".formatted(shareLink)
+				));
 	}
 
 	@Override

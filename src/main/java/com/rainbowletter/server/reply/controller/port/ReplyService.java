@@ -6,6 +6,8 @@ import java.util.UUID;
 
 public interface ReplyService {
 
+	ReplyResponse findByLetterId(Long letterId);
+
 	ReplyResponse findByShareLink(UUID shareLink);
 
 	void generate(Long letterId);

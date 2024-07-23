@@ -10,6 +10,8 @@ public interface PetRepository {
 
 	Pet findByIdAndUserIdOrElseThrow(Long id, Long userId);
 
+	Pet findByLetterIdOrElseThrow(Long letterId);
+
 	Pet findByShareLinkOrElseThrow(UUID shareLink);
 
 	List<Pet> findAllByUserId(Long userId);

@@ -11,6 +11,8 @@ public interface PetService {
 
 	PetResponse findByEmailAndId(String email, Long id);
 
+	PetExcludeFavoriteResponse findByLetterId(Long letterId);
+
 	PetExcludeFavoriteResponse findByShareLink(UUID shareLink);
 
 	PetResponses findAllByEmail(String email);

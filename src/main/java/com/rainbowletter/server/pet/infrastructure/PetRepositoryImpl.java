@@ -33,6 +33,17 @@ public class PetRepositoryImpl implements PetRepository {
 	}
 
 	@Override
+	public Pet findByLetterIdOrElseThrow(final Long letterId) {
+		return Optional.ofNullable(
+						queryFactory.selectFrom(pet)
+								.join(letter).on(pet.id.eq(letter.petId))
+								.where(letter.id.eq(letterId))
+								.fetchOne()
+				)
+				.orElseThrow(() -> new RainbowLetterException("반려동물을 찾을 수 없습니다.", "letter: [%d]".formatted(letterId)));
+	}
+
+	@Override
 	public Pet findByShareLinkOrElseThrow(final UUID shareLink) {
 		return Optional.ofNullable(
 						queryFactory.selectFrom(pet)

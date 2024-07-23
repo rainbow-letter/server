@@ -31,15 +31,21 @@ public class LetterServiceImpl implements LetterService {
 	private final LetterRepository letterRepository;
 
 	@Override
-	public LetterResponse findByShareLink(final UUID shareLink) {
-		final Letter letter = letterRepository.findByShareLinkOrElseThrow(shareLink);
+	public LetterBoxResponses findAllLetterBoxByEmail(final String email) {
+		final List<LetterBoxResponse> letterBoxResponses = letterRepository.findAllLetterBoxByEmail(email);
+		return LetterBoxResponses.from(letterBoxResponses);
+	}
+
+	@Override
+	public LetterResponse findByEmailAndId(final String email, final Long id) {
+		final Letter letter = letterRepository.findByEmailAndIdOrElseThrow(email, id);
 		return LetterResponse.from(letter);
 	}
 
 	@Override
-	public LetterBoxResponses findAllLetterBoxByEmail(final String email) {
-		final List<LetterBoxResponse> letterBoxResponses = letterRepository.findAllLetterBoxByEmail(email);
-		return LetterBoxResponses.from(letterBoxResponses);
+	public LetterResponse findByShareLink(final UUID shareLink) {
+		final Letter letter = letterRepository.findByShareLinkOrElseThrow(shareLink);
+		return LetterResponse.from(letter);
 	}
 
 	@Override

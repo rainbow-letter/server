@@ -28,6 +28,16 @@ public class ReplyRepositoryImpl implements ReplyRepository {
 	}
 
 	@Override
+	public Optional<Reply> findByLetterId(final Long letterId) {
+		return Optional.ofNullable(
+				queryFactory.selectFrom(reply)
+						.join(letter).on(reply.letterId.eq(letter.id))
+						.where(reply.status.eq(ReplyStatus.REPLY).and(letter.id.eq(letterId)))
+						.fetchOne()
+		);
+	}
+
+	@Override
 	public Reply findByShareLinkOrElseThrow(final UUID shareLink) {
 		return Optional.ofNullable(
 						queryFactory.selectFrom(reply)

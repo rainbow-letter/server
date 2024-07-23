@@ -41,6 +41,16 @@ public class LetterController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<LetterDetailResponse> findById(@PathVariable("id") final Long id) {
+		final String email = SecurityUtils.getEmail();
+		final PetExcludeFavoriteResponse petResponse = petService.findByLetterId(id);
+		final LetterResponse letterResponse = letterService.findByEmailAndId(email, id);
+		final ReplyResponse replyResponse = replyService.findByLetterId(id);
+		final LetterDetailResponse response = LetterDetailResponse.of(petResponse, letterResponse, replyResponse);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
 	@GetMapping("/share/{shareLink}")
 	public ResponseEntity<LetterDetailResponse> findByShareLink(@PathVariable("shareLink") final String shareLink) {
 		final UUID shareUUID = UUID.fromString(shareLink);

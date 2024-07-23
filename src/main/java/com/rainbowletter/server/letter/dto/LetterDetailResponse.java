@@ -2,6 +2,7 @@ package com.rainbowletter.server.letter.dto;
 
 import com.rainbowletter.server.pet.dto.PetExcludeFavoriteResponse;
 import com.rainbowletter.server.reply.dto.ReplyResponse;
+import jakarta.annotation.Nullable;
 
 public record LetterDetailResponse(
 		PetExcludeFavoriteResponse pet,
@@ -12,7 +13,7 @@ public record LetterDetailResponse(
 	public static LetterDetailResponse of(
 			final PetExcludeFavoriteResponse petResponse,
 			final LetterResponse letterResponse,
-			final ReplyResponse replyResponse
+			@Nullable final ReplyResponse replyResponse
 	) {
 		return new LetterDetailResponse(petResponse, letterResponse, replyResponse);
 	}

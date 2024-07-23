@@ -7,9 +7,11 @@ import java.util.UUID;
 
 public interface LetterService {
 
-	LetterResponse findByShareLink(UUID shareLink);
-
 	LetterBoxResponses findAllLetterBoxByEmail(String email);
+
+	LetterResponse findByEmailAndId(String email, Long id);
+
+	LetterResponse findByShareLink(UUID shareLink);
 
 	Long create(String email, Long petId, LetterCreate letterCreate);
 

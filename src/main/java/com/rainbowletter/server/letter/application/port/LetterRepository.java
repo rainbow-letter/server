@@ -11,6 +11,8 @@ public interface LetterRepository {
 
 	Letter findByIdOrElseThrow(Long id);
 
+	Letter findByEmailAndIdOrElseThrow(String email, Long id);
+
 	Letter findByShareLinkOrElseThrow(UUID shareLink);
 
 	List<Letter> findAllByPetId(Long petId);

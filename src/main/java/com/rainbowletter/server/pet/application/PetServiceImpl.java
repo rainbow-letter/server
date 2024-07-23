@@ -33,6 +33,12 @@ public class PetServiceImpl implements PetService {
 	}
 
 	@Override
+	public PetExcludeFavoriteResponse findByLetterId(final Long letterId) {
+		final Pet pet = petRepository.findByLetterIdOrElseThrow(letterId);
+		return PetExcludeFavoriteResponse.from(pet);
+	}
+
+	@Override
 	public PetExcludeFavoriteResponse findByShareLink(final UUID shareLink) {
 		final Pet pet = petRepository.findByShareLinkOrElseThrow(shareLink);
 		return PetExcludeFavoriteResponse.from(pet);
