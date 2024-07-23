@@ -9,6 +9,7 @@ import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTE
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PARAM_PET_ID;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_ID;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_SHARE_LINK;
+import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_BOX_RESPONSE;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_CREATE_RESPONSE_HEADER;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_RESPONSE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,6 +26,28 @@ import org.springframework.test.context.jdbc.Sql;
 
 @Sql({"classpath:sql/user.sql", "classpath:sql/pet.sql", "classpath:sql/letter.sql", "classpath:sql/reply.sql"})
 class LetterE2ETest extends TestHelper {
+
+	@Test
+	void Should_LetterBoxResponses_When_ValidRequest() {
+		// given
+		final String token = userAccessToken;
+
+		// when
+		final ExtractableResponse<Response> response = findAllLetterBoxByEmail(token);
+
+		// then
+		assertThat(response.statusCode()).isEqualTo(200);
+	}
+
+	private ExtractableResponse<Response> findAllLetterBoxByEmail(final String token) {
+		return RestAssured
+				.given(getSpecification()).log().all()
+				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.filter(getFilter().document(AUTHORIZATION_HEADER, LETTER_BOX_RESPONSE))
+				.when().get("/api/letters/box")
+				.then().log().all().extract();
+	}
 
 	@Test
 	void Should_LetterShareResponse_When_ValidRequest() {
