@@ -2,6 +2,7 @@ package com.rainbowletter.server.letter.controller;
 
 import com.rainbowletter.server.common.infrastructure.SecurityUtils;
 import com.rainbowletter.server.letter.controller.port.LetterService;
+import com.rainbowletter.server.letter.dto.LetterBoxResponses;
 import com.rainbowletter.server.letter.dto.LetterCreateRequest;
 import com.rainbowletter.server.letter.dto.LetterDetailResponse;
 import com.rainbowletter.server.letter.dto.LetterResponse;
@@ -32,6 +33,13 @@ public class LetterController {
 	private final PetService petService;
 	private final LetterService letterService;
 	private final ReplyService replyService;
+
+	@GetMapping("/box")
+	public ResponseEntity<LetterBoxResponses> findAllLetterBoxByEmail() {
+		final String email = SecurityUtils.getEmail();
+		final LetterBoxResponses response = letterService.findAllLetterBoxByEmail(email);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 
 	@GetMapping("/share/{shareLink}")
 	public ResponseEntity<LetterDetailResponse> findByShareLink(@PathVariable("shareLink") final String shareLink) {

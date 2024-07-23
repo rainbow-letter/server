@@ -1,11 +1,16 @@
 package com.rainbowletter.server.letter.infrastructure;
 
 import static com.rainbowletter.server.letter.domain.QLetter.letter;
+import static com.rainbowletter.server.pet.domain.QPet.pet;
+import static com.rainbowletter.server.reply.domain.QReply.reply;
+import static com.rainbowletter.server.user.domain.QUser.user;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.rainbowletter.server.common.exception.RainbowLetterException;
 import com.rainbowletter.server.letter.application.port.LetterRepository;
 import com.rainbowletter.server.letter.domain.Letter;
+import com.rainbowletter.server.letter.dto.LetterBoxResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,6 +50,26 @@ public class LetterRepositoryImpl implements LetterRepository {
 	@Override
 	public List<Letter> findAllByPetId(final Long petId) {
 		return letterJpaRepository.findAllByPetId(petId);
+	}
+
+	@Override
+	public List<LetterBoxResponse> findAllLetterBoxByEmail(final String email) {
+		return queryFactory.select(Projections.constructor(
+						LetterBoxResponse.class,
+						letter.id,
+						letter.summary,
+						letter.status,
+						pet.name,
+						reply.readStatus,
+						letter.timeEntity.createdAt
+				))
+				.from(letter)
+				.join(user).on(letter.userId.eq(user.id))
+				.join(pet).on(letter.petId.eq(pet.id))
+				.leftJoin(reply).on(letter.id.eq(reply.letterId))
+				.where(user.email.eq(email))
+				.orderBy(letter.timeEntity.createdAt.desc())
+				.fetch();
 	}
 
 	@Override

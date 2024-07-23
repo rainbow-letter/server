@@ -5,12 +5,15 @@ import com.rainbowletter.server.common.application.port.UuidHolder;
 import com.rainbowletter.server.letter.application.port.LetterRepository;
 import com.rainbowletter.server.letter.controller.port.LetterService;
 import com.rainbowletter.server.letter.domain.Letter;
+import com.rainbowletter.server.letter.dto.LetterBoxResponse;
+import com.rainbowletter.server.letter.dto.LetterBoxResponses;
 import com.rainbowletter.server.letter.dto.LetterCreate;
 import com.rainbowletter.server.letter.dto.LetterResponse;
 import com.rainbowletter.server.pet.application.port.PetRepository;
 import com.rainbowletter.server.pet.domain.Pet;
 import com.rainbowletter.server.user.application.port.UserRepository;
 import com.rainbowletter.server.user.domain.User;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,12 @@ public class LetterServiceImpl implements LetterService {
 	public LetterResponse findByShareLink(final UUID shareLink) {
 		final Letter letter = letterRepository.findByShareLinkOrElseThrow(shareLink);
 		return LetterResponse.from(letter);
+	}
+
+	@Override
+	public LetterBoxResponses findAllLetterBoxByEmail(final String email) {
+		final List<LetterBoxResponse> letterBoxResponses = letterRepository.findAllLetterBoxByEmail(email);
+		return LetterBoxResponses.from(letterBoxResponses);
 	}
 
 	@Override

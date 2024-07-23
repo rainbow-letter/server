@@ -1,6 +1,7 @@
 package com.rainbowletter.server.letter.application.port;
 
 import com.rainbowletter.server.letter.domain.Letter;
+import com.rainbowletter.server.letter.dto.LetterBoxResponse;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +14,8 @@ public interface LetterRepository {
 	Letter findByShareLinkOrElseThrow(UUID shareLink);
 
 	List<Letter> findAllByPetId(Long petId);
+
+	List<LetterBoxResponse> findAllLetterBoxByEmail(String email);
 
 	Letter save(Letter letter);
 
