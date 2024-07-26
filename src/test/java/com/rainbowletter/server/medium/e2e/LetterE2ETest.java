@@ -4,11 +4,14 @@ import static com.rainbowletter.server.common.config.security.JwtTokenAuthentica
 import static com.rainbowletter.server.common.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
 import static com.rainbowletter.server.medium.RestDocsUtils.getFilter;
 import static com.rainbowletter.server.medium.RestDocsUtils.getSpecification;
+import static com.rainbowletter.server.medium.snippet.CommonRequestSnippet.ADMIN_AUTHORIZATION_HEADER;
 import static com.rainbowletter.server.medium.snippet.CommonRequestSnippet.AUTHORIZATION_HEADER;
+import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_ADMIN_QUERY_PARAMS;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_CREATE_REQUEST;
-import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PARAM_PET_ID;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_ID;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_SHARE_LINK;
+import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_QUERY_PARAM_PET_ID;
+import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_ADMIN_PAGE_RESPONSE;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_BOX_RESPONSE;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_CREATE_RESPONSE_HEADER;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_RESPONSE;
@@ -120,7 +123,7 @@ class LetterE2ETest extends TestHelper {
 				.queryParam("pet", 1)
 				.filter(getFilter().document(
 						AUTHORIZATION_HEADER,
-						LETTER_PARAM_PET_ID,
+						LETTER_QUERY_PARAM_PET_ID,
 						LETTER_CREATE_REQUEST,
 						LETTER_CREATE_RESPONSE_HEADER
 				))
@@ -147,6 +150,39 @@ class LetterE2ETest extends TestHelper {
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.filter(getFilter().document(AUTHORIZATION_HEADER, LETTER_PATH_VARIABLE_ID))
 				.when().delete("/api/letters/{id}", 4)
+				.then().log().all().extract();
+	}
+
+	@Test
+	void Should_LetterAdminPageResponse_When_ValidRequest() {
+		// given
+		final String token = adminAccessToken;
+
+		// when
+		final ExtractableResponse<Response> response = findAllByAdmins(token);
+
+		// then
+		assertThat(response.statusCode()).isEqualTo(200);
+	}
+
+	private ExtractableResponse<Response> findAllByAdmins(final String token) {
+		return RestAssured
+				.given(getSpecification()).log().all()
+				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.queryParams(
+						"start", "2024-01-01",
+						"end", "2024-01-03",
+						"email", "user@mail.com",
+						"page", 0,
+						"size", 3
+				)
+				.filter(getFilter().document(
+						ADMIN_AUTHORIZATION_HEADER,
+						LETTER_ADMIN_QUERY_PARAMS,
+						LETTER_ADMIN_PAGE_RESPONSE
+				))
+				.when().get("/api/admins/letters/list")
 				.then().log().all().extract();
 	}
 

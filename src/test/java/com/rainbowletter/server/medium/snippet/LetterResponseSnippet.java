@@ -155,4 +155,62 @@ public class LetterResponseSnippet {
 					.description("수정일")
 	);
 
+	public static final Snippet LETTER_ADMIN_PAGE_RESPONSE = responseFields(
+			fieldWithPath("content[].id")
+					.type(JsonFieldType.NUMBER)
+					.description("편지 ID"),
+			fieldWithPath("content[].userId")
+					.type(JsonFieldType.NUMBER)
+					.description("사용자 ID"),
+			fieldWithPath("content[].petId")
+					.type(JsonFieldType.NUMBER)
+					.description("반려동물 ID"),
+			fieldWithPath("content[].email")
+					.type(JsonFieldType.STRING)
+					.description("사용자 이메일"),
+			fieldWithPath("content[].count")
+					.type(JsonFieldType.NUMBER)
+					.description("사용자의 총 편지 수"),
+			fieldWithPath("content[].summary")
+					.type(JsonFieldType.STRING)
+					.description("편지 제목"),
+			fieldWithPath("content[].content")
+					.type(JsonFieldType.STRING)
+					.description("편지 본문"),
+			fieldWithPath("content[].inspection")
+					.type(JsonFieldType.BOOLEAN)
+					.description("답장 검수 여부")
+					.optional(),
+			fieldWithPath("content[].inspectionTime")
+					.type(JsonFieldType.STRING)
+					.description("답장 검수 시간")
+					.optional(),
+			fieldWithPath("content[].status")
+					.type(JsonFieldType.STRING)
+					.description("답장 상태 CHAT_GPT || REPLY")
+					.optional(),
+			fieldWithPath("content[].submitTime")
+					.type(JsonFieldType.STRING)
+					.description("답장 시간")
+					.optional(),
+			fieldWithPath("content[].createdAt")
+					.type(JsonFieldType.STRING)
+					.description("편지 작성일"),
+			fieldWithPath("content[].updatedAt")
+					.type(JsonFieldType.STRING)
+					.description("편지 수정일"),
+			fieldWithPath("page.size")
+					.type(JsonFieldType.NUMBER)
+					.description("페이지 데이터 조회 개수"),
+			fieldWithPath("page.number")
+					.type(JsonFieldType.NUMBER)
+					.description("현재 페이지 번호"),
+			fieldWithPath("page.totalElements")
+					.type(JsonFieldType.NUMBER)
+					.description("총 데이터 개수"),
+			fieldWithPath("page.totalPages")
+					.type(JsonFieldType.NUMBER)
+					.description("총 페이지 수")
+	);
+
 }

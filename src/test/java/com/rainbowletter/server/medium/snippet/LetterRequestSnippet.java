@@ -12,8 +12,33 @@ import org.springframework.restdocs.snippet.Snippet;
 
 public class LetterRequestSnippet {
 
-	public static final Snippet LETTER_PARAM_PET_ID = queryParameters(
+	public static final Snippet LETTER_QUERY_PARAM_PET_ID = queryParameters(
 			parameterWithName("pet").description("반려 동물 ID")
+	);
+
+	public static final Snippet LETTER_ADMIN_QUERY_PARAMS = queryParameters(
+			parameterWithName("start")
+					.description("검색 시작 날짜")
+					.attributes(constraints("yyyy-MM-dd")),
+			parameterWithName("end")
+					.description("검색 종료 날짜")
+					.attributes(constraints("yyyy-MM-dd")),
+			parameterWithName("status")
+					.description("답장 발송 여부")
+					.attributes(constraints("CHAT_GPT || REPLY"))
+					.optional(),
+			parameterWithName("email")
+					.description("검색 이메일")
+					.optional(),
+			parameterWithName("inspect")
+					.description("검수 여부")
+					.attributes(constraints("true || false"))
+					.optional(),
+			parameterWithName("page")
+					.description("페이지 번호")
+					.attributes(constraints("0부터 시작")),
+			parameterWithName("size")
+					.description("페이지 데이터 조회 개수")
 	);
 
 	public static final Snippet LETTER_PATH_VARIABLE_ID = pathParameters(
