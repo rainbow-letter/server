@@ -1,9 +1,12 @@
 package com.rainbowletter.server.letter.application.port;
 
 import com.rainbowletter.server.letter.domain.Letter;
+import com.rainbowletter.server.letter.dto.LetterAdminPageRequest;
+import com.rainbowletter.server.letter.dto.LetterAdminPageResponse;
 import com.rainbowletter.server.letter.dto.LetterBoxResponse;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
 
 public interface LetterRepository {
 
@@ -18,6 +21,8 @@ public interface LetterRepository {
 	List<Letter> findAllByPetId(Long petId);
 
 	List<LetterBoxResponse> findAllLetterBoxByEmail(String email);
+
+	Page<LetterAdminPageResponse> findAllByAdmins(LetterAdminPageRequest request);
 
 	Letter save(Letter letter);
 

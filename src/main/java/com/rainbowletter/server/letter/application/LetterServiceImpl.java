@@ -5,6 +5,8 @@ import com.rainbowletter.server.common.application.port.UuidHolder;
 import com.rainbowletter.server.letter.application.port.LetterRepository;
 import com.rainbowletter.server.letter.controller.port.LetterService;
 import com.rainbowletter.server.letter.domain.Letter;
+import com.rainbowletter.server.letter.dto.LetterAdminPageRequest;
+import com.rainbowletter.server.letter.dto.LetterAdminPageResponse;
 import com.rainbowletter.server.letter.dto.LetterBoxResponse;
 import com.rainbowletter.server.letter.dto.LetterBoxResponses;
 import com.rainbowletter.server.letter.dto.LetterCreate;
@@ -16,6 +18,7 @@ import com.rainbowletter.server.user.domain.User;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +49,11 @@ public class LetterServiceImpl implements LetterService {
 	public LetterResponse findByShareLink(final UUID shareLink) {
 		final Letter letter = letterRepository.findByShareLinkOrElseThrow(shareLink);
 		return LetterResponse.from(letter);
+	}
+
+	@Override
+	public Page<LetterAdminPageResponse> findAllByAdmins(final LetterAdminPageRequest request) {
+		return letterRepository.findAllByAdmins(request);
 	}
 
 	@Override
