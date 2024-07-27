@@ -7,11 +7,13 @@ import static com.rainbowletter.server.medium.RestDocsUtils.getSpecification;
 import static com.rainbowletter.server.medium.snippet.CommonRequestSnippet.ADMIN_AUTHORIZATION_HEADER;
 import static com.rainbowletter.server.medium.snippet.CommonRequestSnippet.AUTHORIZATION_HEADER;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_ADMIN_QUERY_PARAMS;
+import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_ADMIN_RECENT_QUERY_PARAMS;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_CREATE_REQUEST;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_ID;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_SHARE_LINK;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_QUERY_PARAM_PET_ID;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_ADMIN_PAGE_RESPONSE;
+import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_ADMIN_RECENT_RESPONSE;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_BOX_RESPONSE;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_CREATE_RESPONSE_HEADER;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_RESPONSE;
@@ -154,18 +156,18 @@ class LetterE2ETest extends TestHelper {
 	}
 
 	@Test
-	void Should_LetterAdminPageResponse_When_ValidRequest() {
+	void Should_LetterAdminPageResponse_When_Admin() {
 		// given
 		final String token = adminAccessToken;
 
 		// when
-		final ExtractableResponse<Response> response = findAllByAdmins(token);
+		final ExtractableResponse<Response> response = findAllByAdmin(token);
 
 		// then
 		assertThat(response.statusCode()).isEqualTo(200);
 	}
 
-	private ExtractableResponse<Response> findAllByAdmins(final String token) {
+	private ExtractableResponse<Response> findAllByAdmin(final String token) {
 		return RestAssured
 				.given(getSpecification()).log().all()
 				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
@@ -183,6 +185,37 @@ class LetterE2ETest extends TestHelper {
 						LETTER_ADMIN_PAGE_RESPONSE
 				))
 				.when().get("/api/admins/letters/list")
+				.then().log().all().extract();
+	}
+
+	@Test
+	void Should_LetterAdminDetailResponse_When_Admin() {
+		// given
+		final String token = adminAccessToken;
+
+		// when
+		final ExtractableResponse<Response> response = findByAdmin(token);
+
+		// then
+		assertThat(response.statusCode()).isEqualTo(200);
+	}
+
+	private ExtractableResponse<Response> findByAdmin(final String token) {
+		return RestAssured
+				.given(getSpecification()).log().all()
+				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.queryParams(
+						"user", "1",
+						"pet", "1"
+				)
+				.filter(getFilter().document(
+						ADMIN_AUTHORIZATION_HEADER,
+						LETTER_PATH_VARIABLE_ID,
+						LETTER_ADMIN_RECENT_QUERY_PARAMS,
+						LETTER_ADMIN_RECENT_RESPONSE
+				))
+				.when().get("/api/admins/letters/{id}", 1)
 				.then().log().all().extract();
 	}
 

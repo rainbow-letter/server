@@ -20,6 +20,9 @@ public class LetterResponseSnippet {
 			fieldWithPath("letters[].id")
 					.type(JsonFieldType.NUMBER)
 					.description("편지 ID"),
+			fieldWithPath("letters[].number")
+					.type(JsonFieldType.NUMBER)
+					.description("편지 회차"),
 			fieldWithPath("letters[].summary")
 					.type(JsonFieldType.STRING)
 					.description("편지 제목"),
@@ -211,6 +214,182 @@ public class LetterResponseSnippet {
 			fieldWithPath("page.totalPages")
 					.type(JsonFieldType.NUMBER)
 					.description("총 페이지 수")
+	);
+
+	public static final Snippet LETTER_ADMIN_RECENT_RESPONSE = responseFields(
+			fieldWithPath("user.id")
+					.type(JsonFieldType.NUMBER)
+					.description("사용자 ID"),
+			fieldWithPath("user.email")
+					.type(JsonFieldType.STRING)
+					.description("사용자 이메일"),
+			fieldWithPath("user.phoneNumber")
+					.type(JsonFieldType.STRING)
+					.description("사용자 휴대폰 번호"),
+			fieldWithPath("user.role")
+					.type(JsonFieldType.STRING)
+					.description("사용자 권한 정보")
+					.attributes(constraints("ROLE_USER | ROLE_ADMIN")),
+			fieldWithPath("user.provider")
+					.type(JsonFieldType.STRING)
+					.description("사용자 로그인 타입")
+					.attributes(constraints("NONE | GOOGLE | NAVER | KAKAO")),
+			fieldWithPath("user.lastLoggedIn")
+					.type(JsonFieldType.STRING)
+					.description("사용자 마지막 로그인 시간")
+					.optional(),
+			fieldWithPath("user.lastChangedPassword")
+					.type(JsonFieldType.STRING)
+					.description("사용자 마지막 비밀번호 변경일"),
+			fieldWithPath("user.createdAt")
+					.type(JsonFieldType.STRING)
+					.description("사용자 생성일"),
+			fieldWithPath("pet.id")
+					.type(JsonFieldType.NUMBER)
+					.description("반려동물 ID"),
+			fieldWithPath("pet.userId")
+					.type(JsonFieldType.NUMBER)
+					.description("사용자 ID"),
+			fieldWithPath("pet.name")
+					.type(JsonFieldType.STRING)
+					.description("아이의 이름"),
+			fieldWithPath("pet.species")
+					.type(JsonFieldType.STRING)
+					.description("아이의 종류"),
+			fieldWithPath("pet.owner")
+					.type(JsonFieldType.STRING)
+					.description("주인을 부르는 호칭"),
+			fieldWithPath("pet.personalities")
+					.type(JsonFieldType.ARRAY)
+					.description("아이의 성격"),
+			fieldWithPath("pet.deathAnniversary")
+					.type(JsonFieldType.STRING)
+					.description("아이가 떠난 날")
+					.optional(),
+			fieldWithPath("pet.image")
+					.type(JsonFieldType.STRING)
+					.description("이미지의 objectKey")
+					.optional(),
+			fieldWithPath("pet.createdAt")
+					.type(JsonFieldType.STRING)
+					.description("생성일"),
+			fieldWithPath("pet.updatedAt")
+					.type(JsonFieldType.STRING)
+					.description("수정일"),
+			fieldWithPath("letter.id")
+					.type(JsonFieldType.NUMBER)
+					.description("편지 ID"),
+			fieldWithPath("letter.userId")
+					.type(JsonFieldType.NUMBER)
+					.description("사용자 ID"),
+			fieldWithPath("letter.petId")
+					.type(JsonFieldType.NUMBER)
+					.description("반려동물 ID"),
+			fieldWithPath("letter.summary")
+					.type(JsonFieldType.STRING)
+					.description("편지 제목"),
+			fieldWithPath("letter.content")
+					.type(JsonFieldType.STRING)
+					.description("편지 본문"),
+			fieldWithPath("letter.shareLink")
+					.type(JsonFieldType.STRING)
+					.description("공유 링크 UUID"),
+			fieldWithPath("letter.image")
+					.type(JsonFieldType.STRING)
+					.description("이미지의 objectKey")
+					.optional(),
+			fieldWithPath("letter.status")
+					.type(JsonFieldType.STRING)
+					.description("편지 답장 여부")
+					.attributes(constraints("REQUEST || RESPONSE")),
+			fieldWithPath("letter.createdAt")
+					.type(JsonFieldType.STRING)
+					.description("생성일"),
+			fieldWithPath("letter.updatedAt")
+					.type(JsonFieldType.STRING)
+					.description("수정일"),
+			fieldWithPath("reply")
+					.type(JsonFieldType.OBJECT)
+					.description("답장 정보 객체")
+					.optional(),
+			fieldWithPath("reply.id")
+					.type(JsonFieldType.NUMBER)
+					.description("답장 ID"),
+			fieldWithPath("reply.petId")
+					.type(JsonFieldType.NUMBER)
+					.description("반려동물 ID"),
+			fieldWithPath("reply.letterId")
+					.type(JsonFieldType.NUMBER)
+					.description("편지 ID"),
+			fieldWithPath("reply.summary")
+					.type(JsonFieldType.STRING)
+					.description("답장 제목"),
+			fieldWithPath("reply.content")
+					.type(JsonFieldType.STRING)
+					.description("답장 본문"),
+			fieldWithPath("reply.promptType")
+					.type(JsonFieldType.STRING)
+					.description("답장 GPT 프롬프트 타입")
+					.attributes(constraints("A || B")),
+			fieldWithPath("reply.inspection")
+					.type(JsonFieldType.BOOLEAN)
+					.description("답장 검수 여부"),
+			fieldWithPath("reply.inspectionTime")
+					.type(JsonFieldType.STRING)
+					.description("답장 검수일")
+					.optional(),
+			fieldWithPath("reply.status")
+					.type(JsonFieldType.STRING)
+					.description("답장 상태")
+					.attributes(constraints("CHAT_GPT || REPLY")),
+			fieldWithPath("reply.submitTime")
+					.type(JsonFieldType.STRING)
+					.description("답장 발송일")
+					.optional(),
+			fieldWithPath("reply.readStatus")
+					.type(JsonFieldType.STRING)
+					.description("답장 읽음 상태")
+					.attributes(constraints("UNREAD || READ")),
+			fieldWithPath("reply.createdAt")
+					.type(JsonFieldType.STRING)
+					.description("생성일"),
+			fieldWithPath("reply.updatedAt")
+					.type(JsonFieldType.STRING)
+					.description("수정일"),
+			fieldWithPath("recent[].id")
+					.type(JsonFieldType.NUMBER)
+					.description("최근 편지 ID"),
+			fieldWithPath("recent[].userId")
+					.type(JsonFieldType.NUMBER)
+					.description("최근 편지 사용자 ID"),
+			fieldWithPath("recent[].petId")
+					.type(JsonFieldType.NUMBER)
+					.description("최근 편지 반려동물 ID"),
+			fieldWithPath("recent[].number")
+					.type(JsonFieldType.NUMBER)
+					.description("편지 회차"),
+			fieldWithPath("recent[].petName")
+					.type(JsonFieldType.STRING)
+					.description("최근 편지 반려동물 이름"),
+			fieldWithPath("recent[].summary")
+					.type(JsonFieldType.STRING)
+					.description("최근 편지 제목"),
+			fieldWithPath("recent[].content")
+					.type(JsonFieldType.STRING)
+					.description("최근 편지 본문"),
+			fieldWithPath("recent[].inspection")
+					.type(JsonFieldType.BOOLEAN)
+					.description("최근 편지 답장 검수 여부"),
+			fieldWithPath("recent[].status")
+					.type(JsonFieldType.STRING)
+					.description("최근 편지 답장 상태")
+					.attributes(constraints("CHAT_GPT || REPLY")),
+			fieldWithPath("recent[].createdAt")
+					.type(JsonFieldType.STRING)
+					.description("최근 편지 생성일"),
+			fieldWithPath("recent[].updatedAt")
+					.type(JsonFieldType.STRING)
+					.description("최근 편지 수정일")
 	);
 
 }

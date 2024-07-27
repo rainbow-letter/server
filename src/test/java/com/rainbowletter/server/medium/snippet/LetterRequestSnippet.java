@@ -41,6 +41,13 @@ public class LetterRequestSnippet {
 					.description("페이지 데이터 조회 개수")
 	);
 
+	public static final Snippet LETTER_ADMIN_RECENT_QUERY_PARAMS = queryParameters(
+			parameterWithName("user")
+					.description("사용자 ID"),
+			parameterWithName("pet")
+					.description("반려동물 ID")
+	);
+
 	public static final Snippet LETTER_PATH_VARIABLE_ID = pathParameters(
 			parameterWithName("id").description("편지 ID")
 	);
