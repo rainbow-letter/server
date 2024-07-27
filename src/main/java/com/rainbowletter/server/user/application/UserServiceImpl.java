@@ -37,6 +37,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public UserInformationResponse information(final Long id) {
+		final User user = userRepository.findByIdOrElseThrow(id);
+		return UserInformationResponse.from(user);
+	}
+
+	@Override
 	@Transactional
 	public Long create(final UserCreate userCreate) {
 		final User user = new User(userCreate, passwordEncoder, timeHolder, userValidator);

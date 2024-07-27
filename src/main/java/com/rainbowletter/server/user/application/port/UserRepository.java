@@ -10,6 +10,8 @@ public interface UserRepository {
 
 	boolean existsByPhoneNumber(String phoneNumber);
 
+	User findByIdOrElseThrow(Long id);
+
 	User findByEmailOrElseThrow(String email);
 
 }

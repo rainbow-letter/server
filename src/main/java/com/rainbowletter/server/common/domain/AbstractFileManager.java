@@ -10,10 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractFileManager {
 
-	protected void createBaseDir(final String basePath, final String dirName) {
+	protected void createBaseDir(final String basePath, final String... dirName) {
 		final File baseDir = createAbsolutePath(basePath, dirName).toFile();
 		if (!baseDir.exists() && baseDir.mkdirs()) {
-			log.info("폴더를 생성하였습니다. [{}]", dirName);
+			log.info("폴더를 생성하였습니다. [{}]", basePath + "/" + String.join("/", dirName));
 		}
 	}
 
