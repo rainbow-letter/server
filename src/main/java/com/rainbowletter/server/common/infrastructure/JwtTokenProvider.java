@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
 	private static final String CLAIM_KEY_ROLES = "roles";
-	private static final int DEFAULT_TOKEN_EXPIRATION_DAY = 14;
+	private static final int DEFAULT_TOKEN_EXPIRATION_DAY = 30;
 
 	private final SecretKey key;
 	private final TimeHolder timeHolder;
