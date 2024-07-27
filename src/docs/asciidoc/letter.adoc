@@ -22,4 +22,8 @@ operation::letter-e2e-test/should_-letter-share-response_-when_-valid-request[sn
 
 === [관리자] 페이지 조회
 
-operation::letter-e2e-test/should_-letter-admin-page-response_-when_-valid-request[snippets='http-request,query-parameters,request-headers,http-response,response-fields']
+operation::letter-e2e-test/should_-letter-admin-page-response_-when_-admin[snippets='http-request,query-parameters,request-headers,http-response,response-fields']
+
+=== [관리자] 상세 조회
+
+operation::letter-e2e-test/should_-letter-admin-detail-response_-when_-admin[snippets='http-request,path-parameters,query-parameters,request-headers,http-response,response-fields']
