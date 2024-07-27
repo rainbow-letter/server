@@ -7,6 +7,7 @@ import com.rainbowletter.server.letter.controller.port.LetterService;
 import com.rainbowletter.server.letter.domain.Letter;
 import com.rainbowletter.server.letter.dto.LetterAdminPageRequest;
 import com.rainbowletter.server.letter.dto.LetterAdminPageResponse;
+import com.rainbowletter.server.letter.dto.LetterAdminRecentResponse;
 import com.rainbowletter.server.letter.dto.LetterBoxResponse;
 import com.rainbowletter.server.letter.dto.LetterBoxResponses;
 import com.rainbowletter.server.letter.dto.LetterCreate;
@@ -46,14 +47,25 @@ public class LetterServiceImpl implements LetterService {
 	}
 
 	@Override
+	public LetterResponse findById(final Long id) {
+		final Letter letter = letterRepository.findByIdOrElseThrow(id);
+		return LetterResponse.from(letter);
+	}
+
+	@Override
 	public LetterResponse findByShareLink(final UUID shareLink) {
 		final Letter letter = letterRepository.findByShareLinkOrElseThrow(shareLink);
 		return LetterResponse.from(letter);
 	}
 
 	@Override
-	public Page<LetterAdminPageResponse> findAllByAdmins(final LetterAdminPageRequest request) {
-		return letterRepository.findAllByAdmins(request);
+	public List<LetterAdminRecentResponse> findAllRecentByPetId(final Long petId) {
+		return letterRepository.findAllRecentByPetId(petId);
+	}
+
+	@Override
+	public Page<LetterAdminPageResponse> findAllByAdmin(final LetterAdminPageRequest request) {
+		return letterRepository.findAllByAdmin(request);
 	}
 
 	@Override

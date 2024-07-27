@@ -1,5 +1,6 @@
 package com.rainbowletter.server.letter.infrastructure;
 
+import static com.querydsl.core.types.dsl.Expressions.asNumber;
 import static com.rainbowletter.server.letter.domain.QLetter.letter;
 import static com.rainbowletter.server.pet.domain.QPet.pet;
 import static com.rainbowletter.server.reply.domain.QReply.reply;
@@ -19,9 +20,11 @@ import com.rainbowletter.server.letter.application.port.LetterRepository;
 import com.rainbowletter.server.letter.domain.Letter;
 import com.rainbowletter.server.letter.dto.LetterAdminPageRequest;
 import com.rainbowletter.server.letter.dto.LetterAdminPageResponse;
+import com.rainbowletter.server.letter.dto.LetterAdminRecentResponse;
 import com.rainbowletter.server.letter.dto.LetterBoxResponse;
 import com.rainbowletter.server.reply.domain.ReplyStatus;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -90,9 +93,10 @@ public class LetterRepositoryImpl implements LetterRepository {
 
 	@Override
 	public List<LetterBoxResponse> findAllLetterBoxByEmail(final String email) {
-		return queryFactory.select(Projections.constructor(
+		final List<LetterBoxResponse> queryResults = queryFactory.select(Projections.constructor(
 						LetterBoxResponse.class,
 						letter.id,
+						asNumber(0),
 						letter.summary,
 						letter.status,
 						pet.name,
@@ -106,16 +110,66 @@ public class LetterRepositoryImpl implements LetterRepository {
 				.where(user.email.eq(email))
 				.orderBy(letter.timeEntity.createdAt.desc())
 				.fetch();
+
+		int sequence = queryResults.size();
+		final List<LetterBoxResponse> letterBoxes = new ArrayList<>();
+		for (LetterBoxResponse result : queryResults) {
+			final LetterBoxResponse response = result.setNumber(sequence);
+			letterBoxes.add(response);
+			sequence--;
+		}
+		return letterBoxes;
 	}
 
 	@Override
-	public Page<LetterAdminPageResponse> findAllByAdmins(final LetterAdminPageRequest request) {
+	public List<LetterAdminRecentResponse> findAllRecentByPetId(final Long petId) {
+		final List<LetterAdminRecentResponse> queryResults = queryFactory.select(Projections.constructor(
+						LetterAdminRecentResponse.class,
+						letter.id,
+						letter.userId,
+						letter.petId,
+						asNumber(0),
+						pet.name,
+						letter.summary,
+						letter.content,
+						reply.inspection,
+						reply.status,
+						letter.timeEntity.createdAt,
+						letter.timeEntity.updatedAt
+				))
+				.distinct()
+				.from(letter)
+				.join(pet).on(letter.petId.eq(pet.id))
+				.leftJoin(reply).on(letter.id.eq(reply.letterId))
+				.where(letter.petId.eq(petId))
+				.limit(20)
+				.orderBy(letter.timeEntity.createdAt.desc())
+				.fetch();
+
+		final Long letterCount = queryFactory.select(letter.count())
+				.from(letter)
+				.where(letter.petId.eq(petId))
+				.fetchOne();
+
+		assert letterCount != null;
+		int sequence = Math.toIntExact(letterCount);
+		final List<LetterAdminRecentResponse> recentResponses = new ArrayList<>();
+		for (final LetterAdminRecentResponse result : queryResults) {
+			final LetterAdminRecentResponse response = result.setNumber(sequence);
+			recentResponses.add(response);
+			sequence--;
+		}
+		return recentResponses;
+	}
+
+	@Override
+	public Page<LetterAdminPageResponse> findAllByAdmin(final LetterAdminPageRequest request) {
 		final JPQLQuery<Long> letterCountQuery = JPAExpressions.select(letter.count())
 				.from(letter)
 				.join(user).on(letter.userId.eq(user.id))
 				.join(pet).on(letter.petId.eq(pet.id))
 				.where(user.id.eq(pet.userId));
-		final NumberExpression<Long> letterCount = Expressions.asNumber(
+		final NumberExpression<Long> letterCount = asNumber(
 				ExpressionUtils.as(letterCountQuery, Expressions.numberPath(Long.class, "count")));
 
 		final List<LetterAdminPageResponse> result = queryFactory.select(Projections.constructor(

@@ -13,6 +13,8 @@ public interface UserService {
 
 	UserInformationResponse information(String email);
 
+	UserInformationResponse information(Long id);
+
 	Long create(UserCreate userCreate);
 
 	TokenResponse login(UserLogin userLogin);
