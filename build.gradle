@@ -110,7 +110,7 @@ build {
 bootJar {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from("${asciidoctor.outputDir}") {
-        into 'BOOT-INF/classes/static'
+        into 'BOOT-INF/classes/static/docs'
     }
     dependsOn copyDocument
 }
