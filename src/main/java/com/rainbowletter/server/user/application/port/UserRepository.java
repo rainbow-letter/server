@@ -8,6 +8,8 @@ public interface UserRepository {
 
 	boolean existsByEmail(String email);
 
+	boolean existsLeaveByEmail(String email);
+
 	boolean existsByPhoneNumber(String phoneNumber);
 
 	User findByIdOrElseThrow(Long id);

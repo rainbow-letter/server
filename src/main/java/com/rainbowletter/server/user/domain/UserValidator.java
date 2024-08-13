@@ -12,6 +12,9 @@ public class UserValidator {
 	private final UserRepository userRepository;
 
 	public void validateEmail(final String email) {
+		if (userRepository.existsLeaveByEmail(email)) {
+			throw new RainbowLetterException("탈퇴한 계정입니다.", email);
+		}
 		if (userRepository.existsByEmail(email)) {
 			throw new RainbowLetterException("이미 존재하는 이메일입니다.", email);
 		}

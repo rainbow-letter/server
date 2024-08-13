@@ -1,8 +1,13 @@
 package com.rainbowletter.server.user.infrastructure;
 
+import static com.rainbowletter.server.user.domain.QUser.user;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.rainbowletter.server.common.exception.RainbowLetterException;
 import com.rainbowletter.server.user.application.port.UserRepository;
 import com.rainbowletter.server.user.domain.User;
+import com.rainbowletter.server.user.domain.UserStatus;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +15,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
+	private final JPAQueryFactory queryFactory;
 	private final UserJpaRepository userJpaRepository;
 
 	@Override
@@ -20,6 +26,19 @@ public class UserRepositoryImpl implements UserRepository {
 	@Override
 	public boolean existsByEmail(final String email) {
 		return userJpaRepository.existsByEmail(email);
+	}
+
+	@Override
+	public boolean existsLeaveByEmail(final String email) {
+		return Objects.nonNull(
+				queryFactory.selectOne()
+						.from(user)
+						.where(
+								user.email.eq(email),
+								user.status.eq(UserStatus.LEAVE)
+						)
+						.fetchFirst()
+		);
 	}
 
 	@Override
