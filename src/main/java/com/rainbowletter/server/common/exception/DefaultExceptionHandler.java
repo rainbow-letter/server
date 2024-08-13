@@ -189,7 +189,7 @@ public class DefaultExceptionHandler {
 		ExceptionLogger.warn(BAD_REQUEST, request.getRequestURI(), exception.getMessage());
 		return ResponseEntity
 				.badRequest()
-				.body(ErrorResponse.of("아이디와 비밀번호를 확인 해주세요.", BAD_REQUEST));
+				.body(ErrorResponse.of("이메일 및 비밀번호를 확인 해주세요.", BAD_REQUEST));
 	}
 
 	@ExceptionHandler({Exception.class})
