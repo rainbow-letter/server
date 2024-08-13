@@ -12,8 +12,8 @@ public class EnvironmentProperty {
 	@Value("${spring.profiles.active}")
 	private String activeProfile;
 
-	public boolean isActiveProduction() {
-		return Objects.nonNull(activeProfile) && activeProfile.contains("prod");
+	public boolean isActiveTest() {
+		return Objects.nonNull(activeProfile) && activeProfile.contains("test");
 	}
 
 }

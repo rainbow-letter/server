@@ -30,7 +30,7 @@ public class NotificationSenderImpl implements NotificationSender {
 
 	@Override
 	public void sendMail(final MailSendRequest request) throws MessagingException {
-		if (environmentProperty.isActiveProduction()) {
+		if (!environmentProperty.isActiveTest()) {
 			final var mimeMessage = mailSender.createMimeMessage();
 			final var messageHelper = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());
 			messageHelper.setFrom("무지개 편지 <noreply@rainbowletter.co.kr>");
@@ -45,7 +45,7 @@ public class NotificationSenderImpl implements NotificationSender {
 	@Override
 	public AlimTalkSendResponse sendAlimTalk(final AlimTalkSendRequest request) throws IOException {
 		final MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-		if (!environmentProperty.isActiveProduction()) {
+		if (environmentProperty.isActiveTest()) {
 			body.add("testMode", "Y");
 		}
 		if (request.useEmTitle()) {
