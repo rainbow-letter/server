@@ -10,7 +10,7 @@ operation::letter-e2e-test/should_-delete-letter_-when_-valid-request[snippets='
 
 === 편지함 조회
 
-operation::letter-e2e-test/should_-letter-box-responses_-when_-valid-request[snippets='http-request,request-headers,http-response,response-fields']
+operation::letter-e2e-test/should_-letter-box-responses_-when_-valid-request[snippets='http-request,query-parameters,request-headers,http-response,response-fields']
 
 === 단건 조회
 

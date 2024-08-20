@@ -8,6 +8,7 @@ import static com.rainbowletter.server.medium.snippet.CommonRequestSnippet.ADMIN
 import static com.rainbowletter.server.medium.snippet.CommonRequestSnippet.AUTHORIZATION_HEADER;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_ADMIN_QUERY_PARAMS;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_ADMIN_RECENT_QUERY_PARAMS;
+import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_BOX_QUERY_PARAMS;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_CREATE_REQUEST;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_ID;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_SHARE_LINK;
@@ -49,7 +50,8 @@ class LetterE2ETest extends TestHelper {
 				.given(getSpecification()).log().all()
 				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.filter(getFilter().document(AUTHORIZATION_HEADER, LETTER_BOX_RESPONSE))
+				.queryParams("pet", 1, "start", "2024-01-01", "end", "2024-01-01")
+				.filter(getFilter().document(AUTHORIZATION_HEADER, LETTER_BOX_QUERY_PARAMS, LETTER_BOX_RESPONSE))
 				.when().get("/api/letters/box")
 				.then().log().all().extract();
 	}

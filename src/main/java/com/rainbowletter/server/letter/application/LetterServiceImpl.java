@@ -8,6 +8,7 @@ import com.rainbowletter.server.letter.domain.Letter;
 import com.rainbowletter.server.letter.dto.LetterAdminPageRequest;
 import com.rainbowletter.server.letter.dto.LetterAdminPageResponse;
 import com.rainbowletter.server.letter.dto.LetterAdminRecentResponse;
+import com.rainbowletter.server.letter.dto.LetterBoxRequest;
 import com.rainbowletter.server.letter.dto.LetterBoxResponse;
 import com.rainbowletter.server.letter.dto.LetterBoxResponses;
 import com.rainbowletter.server.letter.dto.LetterCreate;
@@ -35,8 +36,8 @@ public class LetterServiceImpl implements LetterService {
 	private final LetterRepository letterRepository;
 
 	@Override
-	public LetterBoxResponses findAllLetterBoxByEmail(final String email) {
-		final List<LetterBoxResponse> letterBoxResponses = letterRepository.findAllLetterBoxByEmail(email);
+	public LetterBoxResponses findAllLetterBox(final LetterBoxRequest request) {
+		final List<LetterBoxResponse> letterBoxResponses = letterRepository.findAllLetterBox(request);
 		return LetterBoxResponses.from(letterBoxResponses);
 	}
 

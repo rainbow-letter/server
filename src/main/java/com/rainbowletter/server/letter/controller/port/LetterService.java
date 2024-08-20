@@ -3,6 +3,7 @@ package com.rainbowletter.server.letter.controller.port;
 import com.rainbowletter.server.letter.dto.LetterAdminPageRequest;
 import com.rainbowletter.server.letter.dto.LetterAdminPageResponse;
 import com.rainbowletter.server.letter.dto.LetterAdminRecentResponse;
+import com.rainbowletter.server.letter.dto.LetterBoxRequest;
 import com.rainbowletter.server.letter.dto.LetterBoxResponses;
 import com.rainbowletter.server.letter.dto.LetterCreate;
 import com.rainbowletter.server.letter.dto.LetterResponse;
@@ -12,7 +13,7 @@ import org.springframework.data.domain.Page;
 
 public interface LetterService {
 
-	LetterBoxResponses findAllLetterBoxByEmail(String email);
+	LetterBoxResponses findAllLetterBox(LetterBoxRequest request);
 
 	LetterResponse findByEmailAndId(String email, Long id);
 

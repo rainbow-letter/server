@@ -16,6 +16,17 @@ public class LetterRequestSnippet {
 			parameterWithName("pet").description("반려 동물 ID")
 	);
 
+	public static final Snippet LETTER_BOX_QUERY_PARAMS = queryParameters(
+			parameterWithName("pet")
+					.description("반려 동물 ID"),
+			parameterWithName("start")
+					.description("검색 시작 날짜")
+					.attributes(constraints("yyyy-MM-dd")),
+			parameterWithName("end")
+					.description("검색 종료 날짜")
+					.attributes(constraints("yyyy-MM-dd"))
+	);
+
 	public static final Snippet LETTER_ADMIN_QUERY_PARAMS = queryParameters(
 			parameterWithName("start")
 					.description("검색 시작 날짜")

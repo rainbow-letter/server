@@ -21,6 +21,7 @@ import com.rainbowletter.server.letter.domain.Letter;
 import com.rainbowletter.server.letter.dto.LetterAdminPageRequest;
 import com.rainbowletter.server.letter.dto.LetterAdminPageResponse;
 import com.rainbowletter.server.letter.dto.LetterAdminRecentResponse;
+import com.rainbowletter.server.letter.dto.LetterBoxRequest;
 import com.rainbowletter.server.letter.dto.LetterBoxResponse;
 import com.rainbowletter.server.reply.domain.ReplyStatus;
 import java.time.LocalDateTime;
@@ -92,7 +93,7 @@ public class LetterRepositoryImpl implements LetterRepository {
 	}
 
 	@Override
-	public List<LetterBoxResponse> findAllLetterBoxByEmail(final String email) {
+	public List<LetterBoxResponse> findAllLetterBox(final LetterBoxRequest request) {
 		final List<LetterBoxResponse> queryResults = queryFactory.select(Projections.constructor(
 						LetterBoxResponse.class,
 						letter.id,
@@ -107,13 +108,17 @@ public class LetterRepositoryImpl implements LetterRepository {
 				.join(user).on(letter.userId.eq(user.id))
 				.join(pet).on(letter.petId.eq(pet.id))
 				.leftJoin(reply).on(letter.id.eq(reply.letterId))
-				.where(user.email.eq(email))
+				.where(
+						emailExpression(request.email()),
+						petExpression(request.petId()),
+						dateExpression(request.startDate(), request.endDate())
+				)
 				.orderBy(letter.timeEntity.createdAt.desc())
 				.fetch();
 
 		int sequence = queryResults.size();
 		final List<LetterBoxResponse> letterBoxes = new ArrayList<>();
-		for (LetterBoxResponse result : queryResults) {
+		for (final LetterBoxResponse result : queryResults) {
 			final LetterBoxResponse response = result.setNumber(sequence);
 			letterBoxes.add(response);
 			sequence--;
@@ -222,6 +227,13 @@ public class LetterRepositoryImpl implements LetterRepository {
 			return null;
 		}
 		return user.email.containsIgnoreCase(email);
+	}
+
+	private BooleanExpression petExpression(final Long petId) {
+		if (Objects.isNull(petId)) {
+			return null;
+		}
+		return letter.petId.eq(petId);
 	}
 
 	private BooleanExpression inspectExpression(final Boolean inspect) {
