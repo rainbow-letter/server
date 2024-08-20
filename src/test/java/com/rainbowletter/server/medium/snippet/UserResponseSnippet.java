@@ -21,7 +21,8 @@ public class UserResponseSnippet {
 					.description("사용자 이메일"),
 			fieldWithPath("phoneNumber")
 					.type(JsonFieldType.STRING)
-					.description("사용자 휴대폰 번호"),
+					.description("사용자 휴대폰 번호")
+					.optional(),
 			fieldWithPath("role")
 					.type(JsonFieldType.STRING)
 					.description("사용자 권한 정보")
