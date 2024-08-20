@@ -4,6 +4,7 @@ import com.rainbowletter.server.letter.domain.Letter;
 import com.rainbowletter.server.letter.dto.LetterAdminPageRequest;
 import com.rainbowletter.server.letter.dto.LetterAdminPageResponse;
 import com.rainbowletter.server.letter.dto.LetterAdminRecentResponse;
+import com.rainbowletter.server.letter.dto.LetterBoxRequest;
 import com.rainbowletter.server.letter.dto.LetterBoxResponse;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +22,7 @@ public interface LetterRepository {
 
 	List<Letter> findAllByPetId(Long petId);
 
-	List<LetterBoxResponse> findAllLetterBoxByEmail(String email);
+	List<LetterBoxResponse> findAllLetterBox(LetterBoxRequest request);
 
 	List<LetterAdminRecentResponse> findAllRecentByPetId(Long petId);
 

@@ -2,6 +2,7 @@ package com.rainbowletter.server.letter.controller;
 
 import com.rainbowletter.server.common.infrastructure.SecurityUtils;
 import com.rainbowletter.server.letter.controller.port.LetterService;
+import com.rainbowletter.server.letter.dto.LetterBoxRequest;
 import com.rainbowletter.server.letter.dto.LetterBoxResponses;
 import com.rainbowletter.server.letter.dto.LetterCreateRequest;
 import com.rainbowletter.server.letter.dto.LetterDetailResponse;
@@ -12,6 +13,7 @@ import com.rainbowletter.server.reply.controller.port.ReplyService;
 import com.rainbowletter.server.reply.dto.ReplyResponse;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,9 +37,14 @@ public class LetterController {
 	private final ReplyService replyService;
 
 	@GetMapping("/box")
-	public ResponseEntity<LetterBoxResponses> findAllLetterBoxByEmail() {
+	public ResponseEntity<LetterBoxResponses> findAllLetterBoxByEmail(
+			@RequestParam("pet") final Long petId,
+			@RequestParam("start") final LocalDate start,
+			@RequestParam("end") final LocalDate end
+	) {
 		final String email = SecurityUtils.getEmail();
-		final LetterBoxResponses response = letterService.findAllLetterBoxByEmail(email);
+		final LetterBoxRequest request = LetterBoxRequest.of(email, petId, start, end);
+		final LetterBoxResponses response = letterService.findAllLetterBox(request);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
