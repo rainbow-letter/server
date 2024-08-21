@@ -251,6 +251,9 @@ public class LetterRepositoryImpl implements LetterRepository {
 	}
 
 	private BooleanExpression dateExpression(final LocalDateTime startDate, final LocalDateTime endDate) {
+		if (Objects.isNull(startDate) || Objects.isNull(endDate)) {
+			return null;
+		}
 		final BooleanExpression isGoeStartDate = letter.timeEntity.createdAt.goe(startDate);
 		final BooleanExpression isLoeEndDate = letter.timeEntity.createdAt.loe(endDate);
 		return Expressions.allOf(isGoeStartDate, isLoeEndDate);

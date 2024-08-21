@@ -20,11 +20,13 @@ public class LetterRequestSnippet {
 			parameterWithName("pet")
 					.description("반려 동물 ID"),
 			parameterWithName("start")
-					.description("검색 시작 날짜")
-					.attributes(constraints("yyyy-MM-dd")),
-			parameterWithName("end")
-					.description("검색 종료 날짜")
+					.description("검색 시작 날짜 (end 파라미터와 같이 사용)")
 					.attributes(constraints("yyyy-MM-dd"))
+					.optional(),
+			parameterWithName("end")
+					.description("검색 종료 날짜 (start 파라미터와 같이 사용)")
+					.attributes(constraints("yyyy-MM-dd"))
+					.optional()
 	);
 
 	public static final Snippet LETTER_ADMIN_QUERY_PARAMS = queryParameters(

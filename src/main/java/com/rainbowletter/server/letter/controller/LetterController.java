@@ -39,8 +39,8 @@ public class LetterController {
 	@GetMapping("/box")
 	public ResponseEntity<LetterBoxResponses> findAllLetterBoxByEmail(
 			@RequestParam("pet") final Long petId,
-			@RequestParam("start") final LocalDate start,
-			@RequestParam("end") final LocalDate end
+			@RequestParam(value = "start", required = false) final LocalDate start,
+			@RequestParam(value = "end", required = false) final LocalDate end
 	) {
 		final String email = SecurityUtils.getEmail();
 		final LetterBoxRequest request = LetterBoxRequest.of(email, petId, start, end);
