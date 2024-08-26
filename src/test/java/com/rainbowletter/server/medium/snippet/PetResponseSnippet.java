@@ -111,6 +111,29 @@ public class PetResponseSnippet {
 					.description("수정일")
 	);
 
+	public static final Snippet PET_DASHBOARD_RESPONSES = responseFields(
+			fieldWithPath("pets[].id")
+					.type(JsonFieldType.NUMBER)
+					.description("반려동물 ID"),
+			fieldWithPath("pets[].name")
+					.type(JsonFieldType.STRING)
+					.description("아이의 이름"),
+			fieldWithPath("pets[].letterCount")
+					.type(JsonFieldType.NUMBER)
+					.description("보낸 편지 수"),
+			fieldWithPath("pets[].favoriteCount")
+					.type(JsonFieldType.NUMBER)
+					.description("총 좋아요 수"),
+			fieldWithPath("pets[].image")
+					.type(JsonFieldType.STRING)
+					.description("이미지의 objectKey")
+					.optional(),
+			fieldWithPath("pets[].deathAnniversary")
+					.type(JsonFieldType.STRING)
+					.description("아이가 떠난 날")
+					.optional()
+	);
+
 	public static final Snippet PET_CREATE_RESPONSE_HEADER = responseHeaders(
 			headerWithName(HttpHeaders.LOCATION).description("생성된 반려동물 ID")
 	);
