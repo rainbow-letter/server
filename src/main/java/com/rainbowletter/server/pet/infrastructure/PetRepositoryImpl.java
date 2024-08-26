@@ -2,11 +2,15 @@ package com.rainbowletter.server.pet.infrastructure;
 
 import static com.rainbowletter.server.letter.domain.QLetter.letter;
 import static com.rainbowletter.server.pet.domain.QPet.pet;
+import static com.rainbowletter.server.user.domain.QUser.user;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.rainbowletter.server.common.exception.RainbowLetterException;
 import com.rainbowletter.server.pet.application.port.PetRepository;
 import com.rainbowletter.server.pet.domain.Pet;
+import com.rainbowletter.server.pet.dto.PetDashboardResponse;
+import com.rainbowletter.server.pet.dto.PetDashboardResponses;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,6 +56,26 @@ public class PetRepositoryImpl implements PetRepository {
 								.fetchOne()
 				)
 				.orElseThrow(() -> new RainbowLetterException("반려동물을 찾을 수 없습니다.", "share: [%s]".formatted(shareLink)));
+	}
+
+	@Override
+	public PetDashboardResponses findDashboardByEmail(final String email) {
+		final List<PetDashboardResponse> result = queryFactory.select(Projections.constructor(
+						PetDashboardResponse.class,
+						pet.id,
+						pet.name,
+						letter.count().as("letterCount"),
+						pet.favorite.total.as("favoriteCount"),
+						pet.image,
+						pet.deathAnniversary
+				))
+				.from(pet)
+				.join(user).on(pet.userId.eq(user.id))
+				.leftJoin(letter).on(pet.id.eq(letter.petId))
+				.where(user.email.eq(email))
+				.groupBy(pet.id)
+				.fetch();
+		return PetDashboardResponses.from(result);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.rainbowletter.server.pet.controller.port;
 
 import com.rainbowletter.server.pet.dto.PetCreate;
+import com.rainbowletter.server.pet.dto.PetDashboardResponses;
 import com.rainbowletter.server.pet.dto.PetExcludeFavoriteResponse;
 import com.rainbowletter.server.pet.dto.PetResponse;
 import com.rainbowletter.server.pet.dto.PetResponses;
@@ -16,6 +17,8 @@ public interface PetService {
 	PetExcludeFavoriteResponse findByShareLink(UUID shareLink);
 
 	PetResponses findAllByEmail(String email);
+
+	PetDashboardResponses findDashboardByEmail(String email);
 
 	Long create(String email, PetCreate petCreate);
 

@@ -5,6 +5,7 @@ import com.rainbowletter.server.pet.application.port.PetRepository;
 import com.rainbowletter.server.pet.controller.port.PetService;
 import com.rainbowletter.server.pet.domain.Pet;
 import com.rainbowletter.server.pet.dto.PetCreate;
+import com.rainbowletter.server.pet.dto.PetDashboardResponses;
 import com.rainbowletter.server.pet.dto.PetExcludeFavoriteResponse;
 import com.rainbowletter.server.pet.dto.PetResponse;
 import com.rainbowletter.server.pet.dto.PetResponses;
@@ -49,6 +50,11 @@ public class PetServiceImpl implements PetService {
 		final User user = userRepository.findByEmailOrElseThrow(email);
 		final List<Pet> pets = petRepository.findAllByUserId(user.getId());
 		return PetResponses.from(pets);
+	}
+
+	@Override
+	public PetDashboardResponses findDashboardByEmail(final String email) {
+		return petRepository.findDashboardByEmail(email);
 	}
 
 	@Override

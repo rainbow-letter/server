@@ -9,6 +9,7 @@ import static com.rainbowletter.server.medium.snippet.PetRequestSnippet.PET_CREA
 import static com.rainbowletter.server.medium.snippet.PetRequestSnippet.PET_PATH_VARIABLE_ID;
 import static com.rainbowletter.server.medium.snippet.PetRequestSnippet.PET_UPDATE_REQUEST;
 import static com.rainbowletter.server.medium.snippet.PetResponseSnippet.PET_CREATE_RESPONSE_HEADER;
+import static com.rainbowletter.server.medium.snippet.PetResponseSnippet.PET_DASHBOARD_RESPONSES;
 import static com.rainbowletter.server.medium.snippet.PetResponseSnippet.PET_RESPONSE;
 import static com.rainbowletter.server.medium.snippet.PetResponseSnippet.PET_RESPONSES;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,6 +17,7 @@ import static org.assertj.core.groups.Tuple.tuple;
 
 import com.rainbowletter.server.medium.TestHelper;
 import com.rainbowletter.server.pet.dto.PetCreateRequest;
+import com.rainbowletter.server.pet.dto.PetDashboardResponses;
 import com.rainbowletter.server.pet.dto.PetResponse;
 import com.rainbowletter.server.pet.dto.PetResponses;
 import com.rainbowletter.server.pet.dto.PetUpdateRequest;
@@ -102,6 +104,30 @@ class PetE2ETest extends TestHelper {
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.filter(getFilter().document(AUTHORIZATION_HEADER, PET_PATH_VARIABLE_ID, PET_RESPONSE))
 				.when().get("/api/pets/{id}", 1L)
+				.then().log().all().extract();
+	}
+
+	@Test
+	void Should_PetDashboardResponses_When_Authenticated() {
+		// given
+		final String token = userAccessToken;
+
+		// when
+		final ExtractableResponse<Response> response = findDashboard(token);
+		final PetDashboardResponses result = response.body().as(PetDashboardResponses.class);
+
+		// then
+		assertThat(response.statusCode()).isEqualTo(200);
+		assertThat(result.pets()).hasSize(2);
+	}
+
+	private ExtractableResponse<Response> findDashboard(final String token) {
+		return RestAssured
+				.given(getSpecification()).log().all()
+				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.filter(getFilter().document(AUTHORIZATION_HEADER, PET_DASHBOARD_RESPONSES))
+				.when().get("/api/pets/dashboard")
 				.then().log().all().extract();
 	}
 

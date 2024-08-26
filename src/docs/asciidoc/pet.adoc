@@ -1,5 +1,9 @@
 == 반려동물
 
+=== 대시보드
+
+operation::pet-e2e-test/should_-pet-dashboard-responses_-when_-authenticated[snippets='http-request,request-headers,http-response,response-fields']
+
 === 목록 조회
 
 operation::pet-e2e-test/should_-pet-responses_-when_-authenticated[snippets='http-request,request-headers,http-response,response-fields']
