@@ -1,13 +1,15 @@
 package com.rainbowletter.server.temporary.dto;
 
-import com.rainbowletter.server.common.validation.LetterContent;
+import static com.rainbowletter.server.common.validation.ValidationMessage.NOT_NULL_MESSAGE;
+
+import com.rainbowletter.server.common.validation.TemporaryContent;
 import jakarta.validation.constraints.NotNull;
 
 public record TemporaryCreateRequest(
-		@NotNull
+		@NotNull(message = NOT_NULL_MESSAGE)
 		Long petId,
 
-		@LetterContent
+		@TemporaryContent
 		String content
 ) {
 
