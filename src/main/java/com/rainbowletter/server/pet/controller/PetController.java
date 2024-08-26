@@ -3,6 +3,7 @@ package com.rainbowletter.server.pet.controller;
 import com.rainbowletter.server.common.infrastructure.SecurityUtils;
 import com.rainbowletter.server.pet.controller.port.PetService;
 import com.rainbowletter.server.pet.dto.PetCreateRequest;
+import com.rainbowletter.server.pet.dto.PetDashboardResponses;
 import com.rainbowletter.server.pet.dto.PetResponse;
 import com.rainbowletter.server.pet.dto.PetResponses;
 import com.rainbowletter.server.pet.dto.PetUpdateRequest;
@@ -39,6 +40,13 @@ public class PetController {
 		final String email = SecurityUtils.getEmail();
 		final PetResponse response = petService.findByEmailAndId(email, id);
 		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@GetMapping("/dashboard")
+	public ResponseEntity<PetDashboardResponses> dashboard() {
+		final String email = SecurityUtils.getEmail();
+		final PetDashboardResponses responses = petService.findDashboardByEmail(email);
+		return new ResponseEntity<>(responses, HttpStatus.OK);
 	}
 
 	@PostMapping
