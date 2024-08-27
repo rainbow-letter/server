@@ -57,6 +57,9 @@ public class Letter extends AbstractAggregateRoot<Letter> {
 	private String image;
 
 	@NotNull
+	private Integer number;
+
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private LetterStatus status;
 
@@ -66,11 +69,12 @@ public class Letter extends AbstractAggregateRoot<Letter> {
 	public Letter(
 			final Long userId,
 			final Long petId,
+			final Integer lastNumber,
 			final LetterCreate letterCreate,
 			final UuidHolder uuidHolder,
 			final TimeHolder timeHolder
 	) {
-		this(null, userId, petId, letterCreate, uuidHolder.generate(), timeHolder);
+		this(null, userId, petId, lastNumber, letterCreate, uuidHolder.generate(), timeHolder);
 	}
 
 	@Builder
@@ -78,6 +82,7 @@ public class Letter extends AbstractAggregateRoot<Letter> {
 			final Long id,
 			final Long userId,
 			final Long petId,
+			final Integer lastNumber,
 			final LetterCreate letterCreate,
 			final UUID shareLink,
 			final TimeHolder timeHolder
@@ -85,6 +90,7 @@ public class Letter extends AbstractAggregateRoot<Letter> {
 		this.id = id;
 		this.userId = userId;
 		this.petId = petId;
+		this.number = lastNumber + 1;
 		this.summary = letterCreate.summary();
 		this.content = letterCreate.content();
 		this.shareLink = shareLink;

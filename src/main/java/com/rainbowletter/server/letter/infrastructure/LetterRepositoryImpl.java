@@ -18,6 +18,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.rainbowletter.server.common.exception.RainbowLetterException;
 import com.rainbowletter.server.letter.application.port.LetterRepository;
 import com.rainbowletter.server.letter.domain.Letter;
+import com.rainbowletter.server.letter.domain.QLetter;
 import com.rainbowletter.server.letter.dto.LetterAdminPageRequest;
 import com.rainbowletter.server.letter.dto.LetterAdminPageResponse;
 import com.rainbowletter.server.letter.dto.LetterAdminRecentResponse;
@@ -270,6 +271,21 @@ public class LetterRepositoryImpl implements LetterRepository {
 				.from(letter)
 				.where(letter.petId.eq(petId))
 				.fetchFirst();
+	}
+
+	@Override
+	public Integer getLastNumberByEmailAndPetId(final String email, final Long petId) {
+		final Optional<Letter> result = Optional.ofNullable(
+				queryFactory.selectFrom(QLetter.letter)
+						.join(user).on(letter.userId.eq(user.id))
+						.where(
+								emailExpression(email),
+								petExpression(petId)
+						)
+						.orderBy(QLetter.letter.timeEntity.createdAt.desc())
+						.fetchFirst()
+		);
+		return result.isPresent() ? result.get().getNumber() : 0;
 	}
 
 	@Override

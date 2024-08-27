@@ -74,7 +74,8 @@ public class LetterServiceImpl implements LetterService {
 	public Long create(final String email, final Long petId, final LetterCreate letterCreate) {
 		final User user = findUserByEmailOrElseThrow(email);
 		final Pet pet = findPetByIdAndUserIdOrElseThrow(petId, user.getId());
-		final Letter letter = new Letter(user.getId(), pet.getId(), letterCreate, uuidHolder, timeHolder);
+		final Integer lastNumber = letterRepository.getLastNumberByEmailAndPetId(email, petId);
+		final Letter letter = new Letter(user.getId(), pet.getId(), lastNumber, letterCreate, uuidHolder, timeHolder);
 		letterRepository.save(letter);
 		return letter.getId();
 	}
