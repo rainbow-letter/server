@@ -32,6 +32,8 @@ public interface LetterRepository {
 
 	Long countByPetId(Long petId);
 
+	Integer getLastNumberByEmailAndPetId(String email, Long petId);
+
 	void delete(Letter letter);
 
 	void deleteAll(List<Letter> letters);
