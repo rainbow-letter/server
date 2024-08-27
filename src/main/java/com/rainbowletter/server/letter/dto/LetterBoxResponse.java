@@ -14,8 +14,4 @@ public record LetterBoxResponse(
 		LocalDateTime createdAt
 ) {
 
-	public LetterBoxResponse setNumber(final int number) {
-		return new LetterBoxResponse(id, number, summary, status, petName, readStatus, createdAt);
-	}
-
 }

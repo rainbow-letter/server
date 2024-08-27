@@ -50,7 +50,7 @@ class LetterE2ETest extends TestHelper {
 				.given(getSpecification()).log().all()
 				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.queryParams("pet", 1, "start", "2024-01-01", "end", "2024-01-01")
+				.queryParams("pet", 1, "start", "2024-01-01", "end", "2024-01-02")
 				.filter(getFilter().document(AUTHORIZATION_HEADER, LETTER_BOX_QUERY_PARAMS, LETTER_BOX_RESPONSE))
 				.when().get("/api/letters/box")
 				.then().log().all().extract();

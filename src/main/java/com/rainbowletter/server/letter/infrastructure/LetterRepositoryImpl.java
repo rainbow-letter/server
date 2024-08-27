@@ -26,7 +26,6 @@ import com.rainbowletter.server.letter.dto.LetterBoxRequest;
 import com.rainbowletter.server.letter.dto.LetterBoxResponse;
 import com.rainbowletter.server.reply.domain.ReplyStatus;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -95,10 +94,10 @@ public class LetterRepositoryImpl implements LetterRepository {
 
 	@Override
 	public List<LetterBoxResponse> findAllLetterBox(final LetterBoxRequest request) {
-		final List<LetterBoxResponse> queryResults = queryFactory.select(Projections.constructor(
+		return queryFactory.select(Projections.constructor(
 						LetterBoxResponse.class,
 						letter.id,
-						asNumber(0),
+						letter.number,
 						letter.summary,
 						letter.status,
 						pet.name,
@@ -116,25 +115,16 @@ public class LetterRepositoryImpl implements LetterRepository {
 				)
 				.orderBy(letter.timeEntity.createdAt.desc())
 				.fetch();
-
-		int sequence = queryResults.size();
-		final List<LetterBoxResponse> letterBoxes = new ArrayList<>();
-		for (final LetterBoxResponse result : queryResults) {
-			final LetterBoxResponse response = result.setNumber(sequence);
-			letterBoxes.add(response);
-			sequence--;
-		}
-		return letterBoxes;
 	}
 
 	@Override
 	public List<LetterAdminRecentResponse> findAllRecentByPetId(final Long petId) {
-		final List<LetterAdminRecentResponse> queryResults = queryFactory.select(Projections.constructor(
+		return queryFactory.select(Projections.constructor(
 						LetterAdminRecentResponse.class,
 						letter.id,
 						letter.userId,
 						letter.petId,
-						asNumber(0),
+						letter.number,
 						pet.name,
 						letter.summary,
 						letter.content,
@@ -151,21 +141,6 @@ public class LetterRepositoryImpl implements LetterRepository {
 				.limit(20)
 				.orderBy(letter.timeEntity.createdAt.desc())
 				.fetch();
-
-		final Long letterCount = queryFactory.select(letter.count())
-				.from(letter)
-				.where(letter.petId.eq(petId))
-				.fetchOne();
-
-		assert letterCount != null;
-		int sequence = Math.toIntExact(letterCount);
-		final List<LetterAdminRecentResponse> recentResponses = new ArrayList<>();
-		for (final LetterAdminRecentResponse result : queryResults) {
-			final LetterAdminRecentResponse response = result.setNumber(sequence);
-			recentResponses.add(response);
-			sequence--;
-		}
-		return recentResponses;
 	}
 
 	@Override

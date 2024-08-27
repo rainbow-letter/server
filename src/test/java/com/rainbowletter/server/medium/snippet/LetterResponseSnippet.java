@@ -85,6 +85,9 @@ public class LetterResponseSnippet {
 			fieldWithPath("letter.petId")
 					.type(JsonFieldType.NUMBER)
 					.description("반려동물 ID"),
+			fieldWithPath("letter.number")
+					.type(JsonFieldType.NUMBER)
+					.description("편지 회차"),
 			fieldWithPath("letter.summary")
 					.type(JsonFieldType.STRING)
 					.description("편지 제목"),
@@ -285,6 +288,9 @@ public class LetterResponseSnippet {
 			fieldWithPath("letter.petId")
 					.type(JsonFieldType.NUMBER)
 					.description("반려동물 ID"),
+			fieldWithPath("letter.number")
+					.type(JsonFieldType.NUMBER)
+					.description("편지 회차"),
 			fieldWithPath("letter.summary")
 					.type(JsonFieldType.STRING)
 					.description("편지 제목"),

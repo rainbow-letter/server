@@ -17,20 +17,4 @@ public record LetterAdminRecentResponse(
 		LocalDateTime updatedAt
 ) {
 
-	public LetterAdminRecentResponse setNumber(final int number) {
-		return new LetterAdminRecentResponse(
-				this.id,
-				this.userId,
-				this.petId,
-				number,
-				this.petName,
-				this.summary,
-				this.content,
-				this.inspection,
-				this.status,
-				this.createdAt,
-				this.updatedAt
-		);
-	}
-
 }

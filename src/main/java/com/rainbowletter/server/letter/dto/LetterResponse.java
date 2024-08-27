@@ -9,6 +9,7 @@ public record LetterResponse(
 		Long id,
 		Long userId,
 		Long petId,
+		int number,
 		String summary,
 		String content,
 		UUID shareLink,
@@ -18,11 +19,12 @@ public record LetterResponse(
 		LocalDateTime updatedAt
 ) {
 
-	public static LetterResponse from(Letter letter) {
+	public static LetterResponse from(final Letter letter) {
 		return new LetterResponse(
 				letter.getId(),
 				letter.getUserId(),
 				letter.getPetId(),
+				letter.getNumber(),
 				letter.getSummary(),
 				letter.getContent(),
 				letter.getShareLink(),
