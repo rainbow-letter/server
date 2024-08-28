@@ -1,6 +1,7 @@
 package com.rainbowletter.server.common.infrastructure;
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,11 @@ public class SystemTimeHolder implements TimeHolder {
 	@Override
 	public LocalDateTime currentTime() {
 		return LocalDateTime.now();
+	}
+
+	@Override
+	public LocalDate currentDate() {
+		return LocalDate.now();
 	}
 
 	@Override

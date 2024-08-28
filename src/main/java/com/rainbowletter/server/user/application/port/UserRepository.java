@@ -1,6 +1,8 @@
 package com.rainbowletter.server.user.application.port;
 
 import com.rainbowletter.server.user.domain.User;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public interface UserRepository {
 
@@ -15,5 +17,9 @@ public interface UserRepository {
 	User findByIdOrElseThrow(Long id);
 
 	User findByEmailOrElseThrow(String email);
+
+	List<User> findAllLeaveByBeforeDate(LocalDateTime beforeDate);
+
+	void deleteAll(List<User> users);
 
 }
