@@ -89,6 +89,14 @@ public class PetRepositoryImpl implements PetRepository {
 	}
 
 	@Override
+	public void deleteAll(final List<Pet> pets) {
+		final List<Long> ids = pets.stream()
+				.map(Pet::getId)
+				.toList();
+		petJpaRepository.deleteAllWithIds(ids);
+	}
+
+	@Override
 	public void resetFavorite() {
 		queryFactory.update(pet)
 				.set(pet.favorite.canIncrease, true)

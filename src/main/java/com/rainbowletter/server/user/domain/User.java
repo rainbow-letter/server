@@ -182,6 +182,10 @@ public class User extends AbstractAggregateRoot<User> {
 		this.status = UserStatus.LEAVE;
 	}
 
+	public void delete() {
+		registerEvent(new UserDeleteEvent(this));
+	}
+
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) {
