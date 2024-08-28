@@ -7,6 +7,8 @@ import com.rainbowletter.server.common.exception.RainbowLetterException;
 import com.rainbowletter.server.user.application.port.UserRepository;
 import com.rainbowletter.server.user.domain.User;
 import com.rainbowletter.server.user.domain.UserStatus;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -56,6 +58,24 @@ public class UserRepositoryImpl implements UserRepository {
 	public User findByEmailOrElseThrow(final String email) {
 		return userJpaRepository.findByEmail(email)
 				.orElseThrow(() -> new RainbowLetterException("사용자 이메일을 찾을 수 없습니다.", email));
+	}
+
+	@Override
+	public List<User> findAllLeaveByBeforeDate(final LocalDateTime beforeDate) {
+		return queryFactory.selectFrom(user)
+				.where(
+						user.timeEntity.updatedAt.loe(beforeDate),
+						user.status.eq(UserStatus.LEAVE)
+				)
+				.fetch();
+	}
+
+	@Override
+	public void deleteAll(final List<User> users) {
+		final List<Long> ids = users.stream()
+				.map(User::getId)
+				.toList();
+		userJpaRepository.deleteAllWithIds(ids);
 	}
 
 }

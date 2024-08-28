@@ -2,6 +2,7 @@ package com.rainbowletter.server.mock;
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
 
@@ -22,6 +23,11 @@ public class FakeTimeHolder implements TimeHolder {
 	public LocalDateTime currentTime() {
 		return LocalDateTime.ofInstant(Instant.ofEpochSecond(timeMillis),
 				TimeZone.getTimeZone("Asia/Seoul").toZoneId());
+	}
+
+	@Override
+	public LocalDate currentDate() {
+		return LocalDate.ofInstant(Instant.ofEpochSecond(timeMillis), TimeZone.getTimeZone("Asia/Seoul").toZoneId());
 	}
 
 	@Override

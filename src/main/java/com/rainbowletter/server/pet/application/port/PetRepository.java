@@ -21,6 +21,8 @@ public interface PetRepository {
 
 	void delete(Pet pet);
 
+	void deleteAll(List<Pet> pets);
+
 	void resetFavorite();
 
 }
