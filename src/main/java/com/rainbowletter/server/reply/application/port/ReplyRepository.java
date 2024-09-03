@@ -1,6 +1,7 @@
 package com.rainbowletter.server.reply.application.port;
 
 import com.rainbowletter.server.reply.domain.Reply;
+import com.rainbowletter.server.reply.domain.ReplyStatus;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,7 +10,7 @@ public interface ReplyRepository {
 
 	Reply findByIdOrElseThrow(Long id);
 
-	Optional<Reply> findByLetterId(Long letterId);
+	Optional<Reply> findByLetterIdAndStatus(Long letterId, ReplyStatus status);
 
 	Reply findByShareLinkOrElseThrow(UUID shareLink);
 

@@ -3,12 +3,14 @@ package com.rainbowletter.server.reply.infrastructure;
 import static com.rainbowletter.server.letter.domain.QLetter.letter;
 import static com.rainbowletter.server.reply.domain.QReply.reply;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.rainbowletter.server.common.exception.RainbowLetterException;
 import com.rainbowletter.server.reply.application.port.ReplyRepository;
 import com.rainbowletter.server.reply.domain.Reply;
 import com.rainbowletter.server.reply.domain.ReplyStatus;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +30,23 @@ public class ReplyRepositoryImpl implements ReplyRepository {
 	}
 
 	@Override
-	public Optional<Reply> findByLetterId(final Long letterId) {
+	public Optional<Reply> findByLetterIdAndStatus(final Long letterId, final ReplyStatus status) {
 		return Optional.ofNullable(
 				queryFactory.selectFrom(reply)
 						.join(letter).on(reply.letterId.eq(letter.id))
-						.where(reply.status.eq(ReplyStatus.REPLY).and(letter.id.eq(letterId)))
+						.where(
+								statusExpression(status),
+								letter.id.eq(letterId)
+						)
 						.fetchOne()
 		);
+	}
+
+	private BooleanExpression statusExpression(final ReplyStatus status) {
+		if (Objects.isNull(status)) {
+			return null;
+		}
+		return reply.status.eq(status);
 	}
 
 	@Override

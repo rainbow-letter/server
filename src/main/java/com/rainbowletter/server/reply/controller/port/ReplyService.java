@@ -1,12 +1,13 @@
 package com.rainbowletter.server.reply.controller.port;
 
+import com.rainbowletter.server.reply.domain.ReplyStatus;
 import com.rainbowletter.server.reply.dto.ReplyResponse;
 import com.rainbowletter.server.reply.dto.ReplyUpdate;
 import java.util.UUID;
 
 public interface ReplyService {
 
-	ReplyResponse findByLetterId(Long letterId);
+	ReplyResponse findByLetterIdAndStatus(Long letterId, ReplyStatus status);
 
 	ReplyResponse findByShareLink(UUID shareLink);
 

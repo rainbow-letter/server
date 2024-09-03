@@ -10,6 +10,7 @@ import com.rainbowletter.server.letter.dto.LetterResponse;
 import com.rainbowletter.server.pet.controller.port.PetService;
 import com.rainbowletter.server.pet.dto.PetExcludeFavoriteResponse;
 import com.rainbowletter.server.reply.controller.port.ReplyService;
+import com.rainbowletter.server.reply.domain.ReplyStatus;
 import com.rainbowletter.server.reply.dto.ReplyResponse;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -53,7 +54,7 @@ public class LetterController {
 		final String email = SecurityUtils.getEmail();
 		final PetExcludeFavoriteResponse petResponse = petService.findByLetterId(id);
 		final LetterResponse letterResponse = letterService.findByEmailAndId(email, id);
-		final ReplyResponse replyResponse = replyService.findByLetterId(id);
+		final ReplyResponse replyResponse = replyService.findByLetterIdAndStatus(id, ReplyStatus.REPLY);
 		final LetterDetailResponse response = LetterDetailResponse.of(petResponse, letterResponse, replyResponse);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}

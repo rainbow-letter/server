@@ -63,7 +63,7 @@ public class LetterAdminController {
 		final PetExcludeFavoriteResponse petResponse = petService.findByLetterId(id);
 		final LetterResponse letterResponse = letterService.findById(id);
 		final List<LetterAdminRecentResponse> recentResponses = letterService.findAllRecentByPetId(petId);
-		final ReplyResponse replyResponse = replyService.findByLetterId(id);
+		final ReplyResponse replyResponse = replyService.findByLetterIdAndStatus(id, null);
 		final LetterAdminDetailResponse response = LetterAdminDetailResponse.of(
 				userResponse, petResponse, letterResponse, replyResponse, recentResponses);
 		return new ResponseEntity<>(response, HttpStatus.OK);

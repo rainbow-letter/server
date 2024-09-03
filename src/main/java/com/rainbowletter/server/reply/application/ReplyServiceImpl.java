@@ -5,6 +5,7 @@ import com.rainbowletter.server.reply.application.port.ReplyRepository;
 import com.rainbowletter.server.reply.controller.port.ReplyService;
 import com.rainbowletter.server.reply.domain.Reply;
 import com.rainbowletter.server.reply.domain.ReplyGenerator;
+import com.rainbowletter.server.reply.domain.ReplyStatus;
 import com.rainbowletter.server.reply.domain.ReplyValidator;
 import com.rainbowletter.server.reply.dto.ReplyResponse;
 import com.rainbowletter.server.reply.dto.ReplyUpdate;
@@ -25,8 +26,8 @@ public class ReplyServiceImpl implements ReplyService {
 	private final ReplyRepository replyRepository;
 
 	@Override
-	public ReplyResponse findByLetterId(final Long letterId) {
-		final Optional<Reply> reply = replyRepository.findByLetterId(letterId);
+	public ReplyResponse findByLetterIdAndStatus(final Long letterId, final ReplyStatus status) {
+		final Optional<Reply> reply = replyRepository.findByLetterIdAndStatus(letterId, status);
 		return reply.map(ReplyResponse::from).orElse(null);
 	}
 
