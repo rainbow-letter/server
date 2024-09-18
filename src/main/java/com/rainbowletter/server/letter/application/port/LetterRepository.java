@@ -24,7 +24,7 @@ public interface LetterRepository {
 
 	List<LetterBoxResponse> findAllLetterBox(LetterBoxRequest request);
 
-	List<LetterAdminRecentResponse> findAllRecentByPetId(Long petId);
+	List<LetterAdminRecentResponse> findAllRecentByUserId(Long userId);
 
 	Page<LetterAdminPageResponse> findAllByAdmin(LetterAdminPageRequest request);
 

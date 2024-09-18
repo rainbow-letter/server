@@ -60,8 +60,8 @@ public class LetterServiceImpl implements LetterService {
 	}
 
 	@Override
-	public List<LetterAdminRecentResponse> findAllRecentByPetId(final Long petId) {
-		return letterRepository.findAllRecentByPetId(petId);
+	public List<LetterAdminRecentResponse> findAllRecentByUserId(final Long userId) {
+		return letterRepository.findAllRecentByUserId(userId);
 	}
 
 	@Override
