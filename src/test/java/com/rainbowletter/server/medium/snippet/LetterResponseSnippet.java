@@ -171,6 +171,10 @@ public class LetterResponseSnippet {
 			fieldWithPath("content[].petId")
 					.type(JsonFieldType.NUMBER)
 					.description("반려동물 ID"),
+			fieldWithPath("content[].replyId")
+					.type(JsonFieldType.NUMBER)
+					.description("답장 ID")
+					.optional(),
 			fieldWithPath("content[].email")
 					.type(JsonFieldType.STRING)
 					.description("사용자 이메일"),
