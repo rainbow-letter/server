@@ -56,9 +56,7 @@ public class LetterRequestSnippet {
 
 	public static final Snippet LETTER_ADMIN_RECENT_QUERY_PARAMS = queryParameters(
 			parameterWithName("user")
-					.description("사용자 ID"),
-			parameterWithName("pet")
-					.description("반려동물 ID")
+					.description("사용자 ID")
 	);
 
 	public static final Snippet LETTER_PATH_VARIABLE_ID = pathParameters(

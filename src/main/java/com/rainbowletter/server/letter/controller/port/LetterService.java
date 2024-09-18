@@ -21,7 +21,7 @@ public interface LetterService {
 
 	LetterResponse findByShareLink(UUID shareLink);
 
-	List<LetterAdminRecentResponse> findAllRecentByPetId(Long petId);
+	List<LetterAdminRecentResponse> findAllRecentByUserId(Long userId);
 
 	Page<LetterAdminPageResponse> findAllByAdmin(LetterAdminPageRequest request);
 

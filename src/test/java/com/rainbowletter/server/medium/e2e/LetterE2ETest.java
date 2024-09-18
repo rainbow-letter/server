@@ -207,10 +207,7 @@ class LetterE2ETest extends TestHelper {
 				.given(getSpecification()).log().all()
 				.header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.queryParams(
-						"user", "1",
-						"pet", "1"
-				)
+				.queryParam("user", "1")
 				.filter(getFilter().document(
 						ADMIN_AUTHORIZATION_HEADER,
 						LETTER_PATH_VARIABLE_ID,

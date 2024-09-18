@@ -56,13 +56,12 @@ public class LetterAdminController {
 	@GetMapping("/{id}")
 	public ResponseEntity<LetterAdminDetailResponse> findByAdmin(
 			@PathVariable("id") final Long id,
-			@RequestParam("user") final Long userId,
-			@RequestParam("pet") final Long petId
+			@RequestParam("user") final Long userId
 	) {
 		final UserInformationResponse userResponse = userService.information(userId);
 		final PetExcludeFavoriteResponse petResponse = petService.findByLetterId(id);
 		final LetterResponse letterResponse = letterService.findById(id);
-		final List<LetterAdminRecentResponse> recentResponses = letterService.findAllRecentByPetId(petId);
+		final List<LetterAdminRecentResponse> recentResponses = letterService.findAllRecentByUserId(userId);
 		final ReplyResponse replyResponse = replyService.findByLetterIdAndStatus(id, null);
 		final LetterAdminDetailResponse response = LetterAdminDetailResponse.of(
 				userResponse, petResponse, letterResponse, replyResponse, recentResponses);

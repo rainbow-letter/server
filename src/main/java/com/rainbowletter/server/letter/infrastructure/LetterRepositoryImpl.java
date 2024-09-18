@@ -118,7 +118,7 @@ public class LetterRepositoryImpl implements LetterRepository {
 	}
 
 	@Override
-	public List<LetterAdminRecentResponse> findAllRecentByPetId(final Long petId) {
+	public List<LetterAdminRecentResponse> findAllRecentByUserId(final Long userId) {
 		return queryFactory.select(Projections.constructor(
 						LetterAdminRecentResponse.class,
 						letter.id,
@@ -137,7 +137,7 @@ public class LetterRepositoryImpl implements LetterRepository {
 				.from(letter)
 				.join(pet).on(letter.petId.eq(pet.id))
 				.leftJoin(reply).on(letter.id.eq(reply.letterId))
-				.where(letter.petId.eq(petId))
+				.where(letter.userId.eq(userId))
 				.limit(20)
 				.orderBy(letter.timeEntity.createdAt.desc())
 				.fetch();
