@@ -158,6 +158,7 @@ public class LetterRepositoryImpl implements LetterRepository {
 						letter.id,
 						letter.userId,
 						letter.petId,
+						reply.id,
 						user.email,
 						letterCount,
 						letter.summary,

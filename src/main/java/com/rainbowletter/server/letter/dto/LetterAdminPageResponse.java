@@ -7,6 +7,7 @@ public record LetterAdminPageResponse(
 		Long id,
 		Long userId,
 		Long petId,
+		Long replyId,
 		String email,
 		Long count,
 		String summary,
