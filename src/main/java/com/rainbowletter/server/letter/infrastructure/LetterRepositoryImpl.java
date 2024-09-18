@@ -147,9 +147,7 @@ public class LetterRepositoryImpl implements LetterRepository {
 	public Page<LetterAdminPageResponse> findAllByAdmin(final LetterAdminPageRequest request) {
 		final JPQLQuery<Long> letterCountQuery = JPAExpressions.select(letter.count())
 				.from(letter)
-				.join(user).on(letter.userId.eq(user.id))
-				.join(pet).on(letter.petId.eq(pet.id))
-				.where(user.id.eq(pet.userId));
+				.where(letter.userId.eq(user.id));
 		final NumberExpression<Long> letterCount = asNumber(
 				ExpressionUtils.as(letterCountQuery, Expressions.numberPath(Long.class, "count")));
 
