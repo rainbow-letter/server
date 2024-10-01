@@ -240,6 +240,14 @@ public class LetterRepositoryImpl implements LetterRepository {
 	}
 
 	@Override
+	public Long countByUserId(final Long userId) {
+		return queryFactory.select(letter.count())
+				.from(letter)
+				.where(letter.userId.eq(userId))
+				.fetchFirst();
+	}
+
+	@Override
 	public Long countByPetId(final Long petId) {
 		return queryFactory.select(letter.count())
 				.from(letter)

@@ -6,7 +6,7 @@ import com.rainbowletter.server.user.dto.UserInformationResponse;
 import java.util.List;
 
 public record LetterAdminDetailResponse(
-		UserInformationResponse user,
+		LetterAdminDetailUserInformationResponse user,
 		PetExcludeFavoriteResponse pet,
 		LetterResponse letter,
 		ReplyResponse reply,
@@ -14,12 +14,14 @@ public record LetterAdminDetailResponse(
 ) {
 
 	public static LetterAdminDetailResponse of(
-			final UserInformationResponse userResponse,
+			final UserInformationResponse userInformation,
+			final Long letterCount,
 			final PetExcludeFavoriteResponse petResponse,
 			final LetterResponse letterResponse,
 			final ReplyResponse replyResponse,
 			final List<LetterAdminRecentResponse> recentResponses
 	) {
+		final var userResponse = LetterAdminDetailUserInformationResponse.from(userInformation, letterCount);
 		return new LetterAdminDetailResponse(userResponse, petResponse, letterResponse, replyResponse, recentResponses);
 	}
 

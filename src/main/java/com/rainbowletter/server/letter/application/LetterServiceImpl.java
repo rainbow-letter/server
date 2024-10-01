@@ -70,6 +70,11 @@ public class LetterServiceImpl implements LetterService {
 	}
 
 	@Override
+	public Long countByUserId(final Long userId) {
+		return letterRepository.countByUserId(userId);
+	}
+
+	@Override
 	@Transactional
 	public Long create(final String email, final Long petId, final LetterCreate letterCreate) {
 		final User user = findUserByEmailOrElseThrow(email);
