@@ -2,7 +2,8 @@ package com.rainbowletter.server.notification.domain;
 
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
-import com.rainbowletter.server.common.exception.RainbowLetterException;
+import com.rainbowletter.server.common.domain.EventLog;
+import com.rainbowletter.server.common.domain.EventLogger;
 import com.rainbowletter.server.common.property.ClientProperty;
 import com.rainbowletter.server.letter.application.port.LetterRepository;
 import com.rainbowletter.server.letter.domain.Letter;
@@ -41,6 +42,7 @@ public class NotificationReplySubmitEventHandler {
 	private final NotificationSender notificationSender;
 	private final EmailTemplateManager emailTemplateManager;
 	private final NotificationRepository notificationRepository;
+	private final EventLogger eventLogger;
 
 	@Async
 	@EventListener
@@ -64,7 +66,12 @@ public class NotificationReplySubmitEventHandler {
 			final var notification = new Notification(request, "SERVER", NotificationType.MAIL, timeHolder);
 			notificationRepository.save(notification);
 		} catch (final MessagingException exception) {
-			throw new RainbowLetterException("편지 답장 도착 메일 발송에 실패하였습니다.", user.getEmail());
+			final EventLog eventLog = createFailLog(
+					"편지 답장 도착 메일 발송에 실패하였습니다. [%s]".formatted(user.getEmail()),
+					user,
+					letter
+			);
+			eventLogger.log(eventLog);
 		}
 	}
 
@@ -95,8 +102,24 @@ public class NotificationReplySubmitEventHandler {
 			final var notification = new Notification(request, "SERVER", NotificationType.ALIM_TALK, timeHolder);
 			notificationRepository.save(notification);
 		} catch (final IOException exception) {
-			throw new RainbowLetterException("편지 답장 도착 알림톡 발송에 실패하였습니다.", user.getPhoneNumber());
+			final EventLog eventLog = createFailLog(
+					"편지 답장 도착 알림톡 발송에 실패하였습니다. [%s]".formatted(user.getPhoneNumber()),
+					user,
+					letter
+			);
+			eventLogger.log(eventLog);
 		}
+	}
+
+	private EventLog createFailLog(final String message, final User user, final Letter letter) {
+		return EventLog.fail(
+				letter.getId(),
+				user.getId(),
+				"LETTER",
+				"NOTIFICATION",
+				message,
+				timeHolder
+		);
 	}
 
 }

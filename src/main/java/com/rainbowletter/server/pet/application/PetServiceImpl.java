@@ -1,6 +1,7 @@
 package com.rainbowletter.server.pet.application;
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
+import com.rainbowletter.server.common.domain.EventLogger;
 import com.rainbowletter.server.pet.application.port.PetRepository;
 import com.rainbowletter.server.pet.controller.port.PetService;
 import com.rainbowletter.server.pet.domain.Pet;
@@ -26,6 +27,7 @@ public class PetServiceImpl implements PetService {
 	private final TimeHolder timeHolder;
 	private final PetRepository petRepository;
 	private final UserRepository userRepository;
+	private final EventLogger eventLogger;
 
 	@Override
 	public PetResponse findByEmailAndId(final String email, final Long id) {
@@ -86,7 +88,7 @@ public class PetServiceImpl implements PetService {
 	@Transactional
 	public void delete(final String email, final Long id) {
 		final Pet pet = findPetByEmailAndIdOrElseThrow(email, id);
-		pet.delete();
+		pet.delete(eventLogger, timeHolder);
 		petRepository.delete(pet);
 	}
 
