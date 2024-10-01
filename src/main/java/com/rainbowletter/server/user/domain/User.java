@@ -71,7 +71,7 @@ public class User extends AbstractAggregateRoot<User> {
 	private TimeEntity timeEntity;
 
 	public User(final UserCreate userCreate, final PasswordEncoder passwordEncoder, final TimeHolder timeHolder) {
-		initialize(null, userCreate, passwordEncoder, null, timeHolder);
+		initialize(null, userCreate, passwordEncoder, timeHolder.currentTime(), timeHolder);
 	}
 
 	public User(
