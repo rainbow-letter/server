@@ -2,6 +2,7 @@ package com.rainbowletter.server.letter.application;
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
 import com.rainbowletter.server.common.application.port.UuidHolder;
+import com.rainbowletter.server.common.domain.EventLogger;
 import com.rainbowletter.server.letter.application.port.LetterRepository;
 import com.rainbowletter.server.letter.controller.port.LetterService;
 import com.rainbowletter.server.letter.domain.Letter;
@@ -34,6 +35,7 @@ public class LetterServiceImpl implements LetterService {
 	private final PetRepository petRepository;
 	private final UserRepository userRepository;
 	private final LetterRepository letterRepository;
+	private final EventLogger eventLogger;
 
 	@Override
 	public LetterBoxResponses findAllLetterBox(final LetterBoxRequest request) {
@@ -90,7 +92,7 @@ public class LetterServiceImpl implements LetterService {
 	public void delete(final String email, final Long id) {
 		final User user = findUserByEmailOrElseThrow(email);
 		final Letter letter = letterRepository.findByIdAndUserIdOrElseThrow(id, user.getId());
-		letter.delete();
+		letter.delete(eventLogger, timeHolder);
 		letterRepository.delete(letter);
 	}
 

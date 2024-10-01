@@ -4,6 +4,8 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
 import com.rainbowletter.server.common.application.port.UuidHolder;
+import com.rainbowletter.server.common.domain.EventLog;
+import com.rainbowletter.server.common.domain.EventLogger;
 import com.rainbowletter.server.common.domain.TimeEntity;
 import com.rainbowletter.server.letter.dto.LetterCreate;
 import jakarta.persistence.Column;
@@ -109,6 +111,12 @@ public class Letter extends AbstractAggregateRoot<Letter> {
 	}
 
 	public void delete() {
+		registerEvent(new LetterDeleteEvent(this));
+	}
+
+	public void delete(final EventLogger eventLogger, final TimeHolder timeHolder) {
+		final EventLog eventLog = EventLog.success(id, userId, "LETTER", "DELETE", "", timeHolder);
+		eventLogger.log(eventLog);
 		registerEvent(new LetterDeleteEvent(this));
 	}
 

@@ -3,11 +3,13 @@ package com.rainbowletter.server.notification.domain;
 import static com.rainbowletter.server.notification.domain.EmailTemplateType.FIND_PASSWORD;
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
-import com.rainbowletter.server.common.exception.RainbowLetterException;
+import com.rainbowletter.server.common.domain.EventLog;
+import com.rainbowletter.server.common.domain.EventLogger;
 import com.rainbowletter.server.notification.application.port.NotificationRepository;
 import com.rainbowletter.server.notification.application.port.NotificationSender;
 import com.rainbowletter.server.notification.dto.MailSendRequest;
 import com.rainbowletter.server.notification.infrastructure.EmailTemplateManager;
+import com.rainbowletter.server.user.domain.User;
 import com.rainbowletter.server.user.domain.UserFindPasswordEmailEvent;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class UserFindPasswordEmailEventHandler {
 	private final NotificationSender notificationSender;
 	private final EmailTemplateManager emailTemplateManager;
 	private final NotificationRepository notificationRepository;
+	private final EventLogger eventLogger;
 
 	@Async
 	@EventListener
@@ -39,8 +42,20 @@ public class UserFindPasswordEmailEventHandler {
 			final Notification notification = new Notification(request, "SERVER", NotificationType.MAIL, timeHolder);
 			notificationRepository.save(notification);
 		} catch (final MessagingException exception) {
-			throw new RainbowLetterException("비밀번호 찾기 메일 발송에 실패하였습니다.", receiver);
+			final EventLog eventLog = createFailLog("비밀번호 찾기 메일 발송에 실패하였습니다. [%s]".formatted(receiver), event.user());
+			eventLogger.log(eventLog);
 		}
+	}
+
+	private EventLog createFailLog(final String message, final User user) {
+		return EventLog.fail(
+				user.getId(),
+				user.getId(),
+				"USER",
+				"NOTIFICATION",
+				message,
+				timeHolder
+		);
 	}
 
 }

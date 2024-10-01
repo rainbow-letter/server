@@ -3,6 +3,8 @@ package com.rainbowletter.server.pet.domain;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.rainbowletter.server.common.application.port.TimeHolder;
+import com.rainbowletter.server.common.domain.EventLog;
+import com.rainbowletter.server.common.domain.EventLogger;
 import com.rainbowletter.server.common.domain.TimeEntity;
 import com.rainbowletter.server.pet.dto.PetCreate;
 import com.rainbowletter.server.pet.dto.PetUpdate;
@@ -106,6 +108,12 @@ public class Pet extends AbstractAggregateRoot<Pet> {
 	}
 
 	public void delete() {
+		registerEvent(new PetDeleteEvent(this));
+	}
+
+	public void delete(final EventLogger eventLogger, final TimeHolder timeHolder) {
+		final EventLog eventLog = EventLog.success(id, userId, "PET", "DELETE", "", timeHolder);
+		eventLogger.log(eventLog);
 		registerEvent(new PetDeleteEvent(this));
 	}
 
