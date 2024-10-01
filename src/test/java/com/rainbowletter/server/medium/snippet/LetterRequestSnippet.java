@@ -54,7 +54,7 @@ public class LetterRequestSnippet {
 					.description("페이지 데이터 조회 개수")
 	);
 
-	public static final Snippet LETTER_ADMIN_RECENT_QUERY_PARAMS = queryParameters(
+	public static final Snippet LETTER_ADMIN_DETAIL_QUERY_PARAMS = queryParameters(
 			parameterWithName("user")
 					.description("사용자 ID")
 	);

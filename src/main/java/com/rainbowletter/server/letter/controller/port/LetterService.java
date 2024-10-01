@@ -25,6 +25,8 @@ public interface LetterService {
 
 	Page<LetterAdminPageResponse> findAllByAdmin(LetterAdminPageRequest request);
 
+	Long countByUserId(Long userId);
+
 	Long create(String email, Long petId, LetterCreate letterCreate);
 
 	void delete(String email, Long id);

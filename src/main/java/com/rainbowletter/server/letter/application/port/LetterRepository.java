@@ -30,6 +30,8 @@ public interface LetterRepository {
 
 	Letter save(Letter letter);
 
+	Long countByUserId(Long userId);
+
 	Long countByPetId(Long petId);
 
 	Integer getLastNumberByEmailAndPetId(String email, Long petId);

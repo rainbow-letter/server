@@ -223,7 +223,7 @@ public class LetterResponseSnippet {
 					.description("총 페이지 수")
 	);
 
-	public static final Snippet LETTER_ADMIN_RECENT_RESPONSE = responseFields(
+	public static final Snippet LETTER_ADMIN_DETAIL_RESPONSE = responseFields(
 			fieldWithPath("user.id")
 					.type(JsonFieldType.NUMBER)
 					.description("사용자 ID"),
@@ -241,6 +241,9 @@ public class LetterResponseSnippet {
 					.type(JsonFieldType.STRING)
 					.description("사용자 로그인 타입")
 					.attributes(constraints("NONE | GOOGLE | NAVER | KAKAO")),
+			fieldWithPath("user.count")
+					.type(JsonFieldType.NUMBER)
+					.description("사용자 총 편지 개수"),
 			fieldWithPath("user.lastLoggedIn")
 					.type(JsonFieldType.STRING)
 					.description("사용자 마지막 로그인 시간")

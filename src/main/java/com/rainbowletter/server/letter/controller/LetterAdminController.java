@@ -58,13 +58,14 @@ public class LetterAdminController {
 			@PathVariable("id") final Long id,
 			@RequestParam("user") final Long userId
 	) {
-		final UserInformationResponse userResponse = userService.information(userId);
+		final UserInformationResponse userInformation = userService.information(userId);
 		final PetExcludeFavoriteResponse petResponse = petService.findByLetterId(id);
 		final LetterResponse letterResponse = letterService.findById(id);
 		final List<LetterAdminRecentResponse> recentResponses = letterService.findAllRecentByUserId(userId);
+		final Long letterCount = letterService.countByUserId(userId);
 		final ReplyResponse replyResponse = replyService.findByLetterIdAndStatus(id, null);
 		final LetterAdminDetailResponse response = LetterAdminDetailResponse.of(
-				userResponse, petResponse, letterResponse, replyResponse, recentResponses);
+				userInformation, letterCount, petResponse, letterResponse, replyResponse, recentResponses);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 

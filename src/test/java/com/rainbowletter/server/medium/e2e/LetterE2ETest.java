@@ -6,15 +6,15 @@ import static com.rainbowletter.server.medium.RestDocsUtils.getFilter;
 import static com.rainbowletter.server.medium.RestDocsUtils.getSpecification;
 import static com.rainbowletter.server.medium.snippet.CommonRequestSnippet.ADMIN_AUTHORIZATION_HEADER;
 import static com.rainbowletter.server.medium.snippet.CommonRequestSnippet.AUTHORIZATION_HEADER;
+import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_ADMIN_DETAIL_QUERY_PARAMS;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_ADMIN_QUERY_PARAMS;
-import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_ADMIN_RECENT_QUERY_PARAMS;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_BOX_QUERY_PARAMS;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_CREATE_REQUEST;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_ID;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_PATH_VARIABLE_SHARE_LINK;
 import static com.rainbowletter.server.medium.snippet.LetterRequestSnippet.LETTER_QUERY_PARAM_PET_ID;
+import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_ADMIN_DETAIL_RESPONSE;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_ADMIN_PAGE_RESPONSE;
-import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_ADMIN_RECENT_RESPONSE;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_BOX_RESPONSE;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_CREATE_RESPONSE_HEADER;
 import static com.rainbowletter.server.medium.snippet.LetterResponseSnippet.LETTER_RESPONSE;
@@ -211,8 +211,8 @@ class LetterE2ETest extends TestHelper {
 				.filter(getFilter().document(
 						ADMIN_AUTHORIZATION_HEADER,
 						LETTER_PATH_VARIABLE_ID,
-						LETTER_ADMIN_RECENT_QUERY_PARAMS,
-						LETTER_ADMIN_RECENT_RESPONSE
+						LETTER_ADMIN_DETAIL_QUERY_PARAMS,
+						LETTER_ADMIN_DETAIL_RESPONSE
 				))
 				.when().get("/api/admins/letters/{id}", 1)
 				.then().log().all().extract();
