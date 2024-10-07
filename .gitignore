@@ -41,8 +41,10 @@ test/resources/
 seed/
 logback.xml
 application.properties
-static/
+src/main/resources/static/docs/
 logs/
 compression-logs/
 .DS_Store
 src/main/generated
+images/
+settings/
